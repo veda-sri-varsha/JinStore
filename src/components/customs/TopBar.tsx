@@ -12,6 +12,7 @@ import {
 import { HiX as X, HiMenu as Menu } from "react-icons/hi";
 import Logo from "../../assets/logo.png";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 export const TopBar = () => {
   const [timeLeft] = useState({
@@ -22,7 +23,7 @@ export const TopBar = () => {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
     <div>
@@ -52,21 +53,16 @@ const [showMenu, setShowMenu] = useState(false);
 
       <header className="bg-white shadow-sm text-xs text-gray-500 font-sans border border-grey-200 cursor-pointer">
         <div className="max-w-7xl mx-auto px-4 py-2 flex flex-row flex-wrap justify-between items-center gap-4">
-          <div className="flex flex-col sm:hidden w-full items-center gap-2 text-center">
-            <span className="text-sm">
-              We deliver every day from{" "}
-              <span className="text-[#f25321] font-bold">7:00 to 23:00</span>
-            </span>
-          </div>
-
           <div className="sm:flex flex-row flex-wrap items-center w-full text-xs">
             <div className="flex items-center gap-4 flex-wrap">
-             <button
-  className="md:hidden text-gray-700"
-  onClick={() => setShowMenu(!showMenu)}
->
-  {showMenu ? <X size={24} /> : <Menu size={24} />}
-</button>
+                <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setShowMenu(!showMenu)}
+                >
+                {showMenu ? <X size={24} /> : <Menu size={24} />}
+                </Button>
 
               <div
                 className={`${
@@ -103,7 +99,7 @@ const [showMenu, setShowMenu] = useState(false);
               {isLoggedIn && (
                 <button
                   onClick={() => setIsLoggedIn(false)}
-                  className="flex items-center gap-2 px-3 py-1 bg-primary text-white text-xs rounded hover:bg-purple-700 transition-colors whitespace-nowrap"
+                  className="flex items-center gap-2 px-3 py-1 bg-primary text-white text-xs rounded hover:bg-purple-900 transition-colors whitespace-nowrap"
                 >
                   <FaSignOutAlt className="w-4 h-4" />
                   Logout
