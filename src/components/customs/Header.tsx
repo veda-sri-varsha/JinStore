@@ -51,46 +51,8 @@ export default function Header() {
               <span>Trending Products</span>
               <FaChevronDown size={14} className="mt-[1px]" />
             </div>
-            <div className="flex items-center space-x-1">
-              <span className="text-red-600 font-semibold cursor-pointer hover:text-red-400">
-                Almost Finished
-              </span>
-              <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-[1px] rounded-sm">
-                SALE
-              </span>
-              <FaChevronDown size={14} className="mt-[1px]" />
-            </div>
           </div>
         </div>
-
-        {menuOpen && (
-          <div className="md:hidden mt-3 space-y-2 text-sm font-medium text-black">
-            {menuItems.map(({ label, path }) => (
-              <Link
-                to={path}
-                key={label}
-                className="block px-2 py-1 hover:text-[var(--color-primary)]"
-              >
-                {label}
-              </Link>
-            ))}
-            <div className="border-t border-gray-200 pt-2 space-y-1">
-              <div className="flex items-center gap-1">
-                <span>Trending Products</span>
-                <FaChevronDown size={14} className="mt-[1px]" />
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-red-600 font-semibold">
-                  Almost Finished
-                </span>
-                <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-[1px] rounded-sm">
-                  SALE
-                </span>
-                <FaChevronDown size={14} className="mt-[1px]" />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import img1 from "../../assets/Hero-1.jpg";
 import img2 from "../../assets/Hero-2.jpg";
 import img3 from "../../assets/Hero-3.jpg";
 
+
 const slides = [
   {
     image: img1,
@@ -103,6 +104,8 @@ export default function HeroSlider() {
           />
         ))}
       </div>
+      
     </div>
+    
   );
 }
