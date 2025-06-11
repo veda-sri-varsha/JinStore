@@ -3,6 +3,14 @@ import { Button } from "../ui/button";
 import img1 from "../../assets/Hero-1.jpg";
 import img2 from "../../assets/Hero-2.jpg";
 import img3 from "../../assets/Hero-3.jpg";
+import FrVeg from "../../assets/Fruits-1.png";
+import  Baby  from  "../../assets/Baby.png";
+import Fish from "../../assets/Fish.png";
+import GS from "../../assets/GS.png";
+import sp from "../../assets/sp.png";
+import Frood from "../../assets/Frood.png";
+import Bread from "../../assets/Bread.png";
+import packet from "../../assets/packet.png";
 
 
 const slides = [
@@ -50,19 +58,17 @@ export default function HeroSlider() {
   }, [length]);
 
   return (
+    <>
     <div className="relative w-full h-[450px] overflow-hidden font-sans">
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${
-            index === current ? "opacity-100 z-10" : "opacity-0 z-0"
-          }`}
+          className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${index === current ? "opacity-100 z-10" : "opacity-0 z-0"}`}
         >
           <img
             src={slide.image}
             alt={`Slide ${index}`}
-            className="w-full h-full object-cover"
-          />
+            className="w-full h-full object-cover" />
 
           <div className="absolute top-1/4 left-8 max-w-md  text-black p-6 ">
             <div className="bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-bold inline-block mb-2">
@@ -97,15 +103,70 @@ export default function HeroSlider() {
           <button
             key={idx}
             title={`Go to slide ${idx + 1}`}
-            className={`w-3 h-3 rounded-full transition-colors ${
-              idx === current ? "bg-white" : "bg-gray-400"
-            }`}
-            onClick={() => setCurrent(idx)}
-          />
+            className={`w-3 h-3 rounded-full transition-colors ${idx === current ? "bg-white" : "bg-gray-400"}`}
+            onClick={() => setCurrent(idx)} />
         ))}
       </div>
-      
-    </div>
-    
+
+    </div><div className="w-full bg-white py-6 px-4">
+        <div className="max-w-5xl mx-auto flex justify-between items-center overflow-x-auto gap-4">
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="w-16 h-16 rounded-full bg-gray-100">
+             <img src={FrVeg} alt="Fruits & Vegetables" />
+            </div>
+            <span className="text-xs font-medium text-gray-800">Fruits & Vegetables</span>
+          </div>
+
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="w-16 h-16 rounded-full bg-gray-100">
+               <img src={Baby} alt="Baby & Pregnancy" />
+            </div>
+            <span className="text-xs font-medium text-gray-800">Baby & Pregnancy</span>
+          </div>
+
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="w-16 h-16 rounded-full bg-gray-100">
+               <img src={sp} alt="Beverages" />
+            </div>
+            <span className="text-xs font-medium text-gray-800">Beverages</span>
+          </div>
+
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="w-16 h-16 rounded-full bg-gray-100">
+               <img src={Fish} alt="Meats & Seafood" />
+            </div>
+            <span className="text-xs font-medium text-gray-800">Meats & Seafood</span>
+          </div>
+
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="w-16 h-16 rounded-full bg-gray-100">
+               <img src={packet} alt="Biscuits & Snacks" />
+            </div>
+            <span className="text-xs font-medium text-gray-800">Biscuits & Snacks</span>
+          </div>
+
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="w-16 h-16 rounded-full bg-gray-100">
+               <img src={Bread} alt="Bread & Bakery" />
+            </div>
+            <span className="text-xs font-medium text-gray-800">Bread & Bakery</span>
+          </div>
+
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="w-16 h-16 rounded-full bg-gray-100">
+                 <img src={Frood} alt="Frozen Foods" />
+            </div>
+            <span className="text-xs font-medium text-gray-800">Frozen Foods</span>
+          </div>
+
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="w-16 h-16 rounded-full bg-gray-100">
+             <img src={GS} alt="Grocery & Staples" />
+            </div>
+            <span className="text-xs font-medium text-gray-800">Grocery & Staples</span>
+          </div>
+        </div>
+      </div>
+      </>
   );
 }
