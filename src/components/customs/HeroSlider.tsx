@@ -59,7 +59,7 @@ export default function HeroSlider() {
 
   return (
     <>
-    <div className="relative w-full h-[450px] overflow-hidden font-sans">
+<div className="relative w-full h-screen overflow-hidden">
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -108,7 +108,8 @@ export default function HeroSlider() {
         ))}
       </div>
 
-    </div><div className="w-full bg-white py-6 px-4">
+    </div>
+    <div className="w-full bg-white py-6 px-4">
         <div className="max-w-5xl mx-auto flex justify-between items-center overflow-x-auto gap-4">
           <div className="flex flex-col items-center space-y-2 text-center">
             <div className="w-16 h-16 rounded-full bg-gray-100">
