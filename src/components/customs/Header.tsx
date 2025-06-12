@@ -12,7 +12,10 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { label: "Home", path: "/" },
   { label: "Shop", path: "/shop" },
-  // Add more menu items as needed
+  { label: "Fruits & Vegetables", path: "/fruits-vegetables" },
+  { label: "Beverages", path: "/beverages" },
+  { label: "Blog", path: "/blog" },
+  { label: "Contact", path: "/contact" },
 ];
 
 export default function Header() {
@@ -54,6 +57,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+      
     </>
   );
 }

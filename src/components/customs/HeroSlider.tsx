@@ -84,7 +84,7 @@ export default function HeroSlider() {
             </p>
 
             <div className="flex items-center mt-4 gap-4">
-              <Button className="bg-purple-700 hover:bg-purple-800 text-white w-32 h-10 text-sm font-semibold rounded">
+              <Button className="bg-primary hover:bg-violet-950 text-white w-32 h-10 text-sm font-semibold rounded">
                 {slide.buttonText}
               </Button>
               <div className="text-red-600 text-lg font-bold">
