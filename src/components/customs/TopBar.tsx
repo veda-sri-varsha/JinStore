@@ -184,15 +184,15 @@ export const TopBar = () => {
                   0
                 </span>
               </button>
-              <Link
+                <Link
                 to="/cart"
                 className="relative text-gray-600 hover:text-purple-600 cursor-pointer"
-              >
+                >
                 <FaShoppingCart size={20} />
                 <span className="absolute -top-2.5 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   0
                 </span>
-              </Link>
+                </Link>
             </div>
           </div>
 
