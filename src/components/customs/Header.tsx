@@ -14,7 +14,6 @@ const menuItems: MenuItem[] = [
   { label: "Shop", path: "/shop" },
   { label: "Fruits & Vegetables", path: "/fruits-vegetables" },
   { label: "Beverages", path: "/beverages" },
-  { label: "Blog", path: "/blog" },
   { label: "Contact", path: "/contact" },
 ];
 
