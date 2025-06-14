@@ -1,9 +1,9 @@
 import HeroSlider from "../components/customs/HeroSlider";
-import {Cart} from "../components/customs/Cart";
+import { ProductList } from "../components/customs/ProductsList";
 
 export default function HomePage() {
   return <>
   <HeroSlider/>
-  <Cart/>
+  <ProductList/>
   </>;
 }

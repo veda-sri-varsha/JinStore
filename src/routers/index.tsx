@@ -3,7 +3,7 @@ import MainLayout from "../components/Layout/MainLayout";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import { Cart } from "../components/customs/Cart";
+import {Cart} from "../components/customs/Cart";
 
 export const router = createBrowserRouter([
   {
