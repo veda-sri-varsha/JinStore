@@ -1,13 +1,13 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { Deal } from "../types/deal";
+import type { deals } from "../types/deals";
 
-interface CartItem extends Deal {
+interface CartItem extends deals {
   quantity: number;
 }
 
 interface CartContextProps {
   cart: CartItem[];
-  addToCart: (item: Deal) => void;
+  addToCart: (item: deals) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
 }
@@ -17,7 +17,7 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  const addToCart = (item: Deal) => {
+  const addToCart = (item: deals) => {
     setCart((prev) => {
       const existing = prev.find((i) => i.id === item.id);
       if (existing) {

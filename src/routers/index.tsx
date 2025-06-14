@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router";
+import MainLayout from "../components/Layout/MainLayout";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import MainLayout from "../components/Layout/MainLayout";
 import { Cart } from "../components/customs/Cart";
 
 export const router = createBrowserRouter([
