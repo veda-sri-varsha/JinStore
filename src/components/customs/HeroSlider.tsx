@@ -113,8 +113,8 @@ export default function HeroSlider() {
         ))}
       </div>
       <div className="w-full bg-white py-6 px-4">
-        <div className="max-w-5xl mx-auto flex sm:flex-wrap sm:justify-center justify-start items-center overflow-x-auto gap-6 sm:gap-4">
-          <div className="flex-shrink-0 flex flex-col items-center space-y-2 text-center min-w-[80px]">
+        <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-6 sm:gap-4">
+          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={FrVeg}
@@ -127,7 +127,7 @@ export default function HeroSlider() {
             </span>
           </div>
 
-          <div className="flex-shrink-0 flex flex-col items-center space-y-2 text-center min-w-[80px]">
+          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={Baby}
@@ -140,7 +140,7 @@ export default function HeroSlider() {
             </span>
           </div>
 
-          <div className="flex-shrink-0 flex flex-col items-center space-y-2 text-center min-w-[80px]">
+          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={sp}
@@ -151,7 +151,7 @@ export default function HeroSlider() {
             <span className="text-xs font-medium text-gray-800">Beverages</span>
           </div>
 
-          <div className="flex-shrink-0 flex flex-col items-center space-y-2 text-center min-w-[80px]">
+          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={Fish}
@@ -164,7 +164,7 @@ export default function HeroSlider() {
             </span>
           </div>
 
-          <div className="flex-shrink-0 flex flex-col items-center space-y-2 text-center min-w-[80px]">
+          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={packet}
@@ -177,7 +177,7 @@ export default function HeroSlider() {
             </span>
           </div>
 
-          <div className="flex-shrink-0 flex flex-col items-center space-y-2 text-center min-w-[80px]">
+          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={Bread}
@@ -190,7 +190,7 @@ export default function HeroSlider() {
             </span>
           </div>
 
-          <div className="flex-shrink-0 flex flex-col items-center space-y-2 text-center min-w-[80px]">
+          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={Frood}
@@ -203,7 +203,7 @@ export default function HeroSlider() {
             </span>
           </div>
 
-          <div className="flex-shrink-0 flex flex-col items-center space-y-2 text-center min-w-[80px]">
+          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={GS}
