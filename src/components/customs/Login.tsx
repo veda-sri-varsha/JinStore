@@ -4,6 +4,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
+import { auth } from "../../config/firebase"; 
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 
 export function Login() {
   const [username, setUsername] = useState<string>("");
@@ -20,23 +23,26 @@ export function Login() {
     null
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validate()) {
-      // Store username in localStorage and set login status
-      localStorage.setItem("username", username.split('@')[0]); // Use part before @ if email
+  
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (validate()) {
+    try {
+      await signInWithEmailAndPassword(auth, username, password);
+      localStorage.setItem("username", username.split("@")[0]);
       localStorage.setItem("isLoggedIn", "true");
-      
+
       setLoginMessage("Logged in successfully!");
       setMessageType("success");
 
       setTimeout(() => {
         setLoginMessage(null);
         setMessageType(null);
-        window.location.href = "/"; // Redirect to home page
+        window.location.href = "/";
       }, 2000);
-    } else {
-      setLoginMessage("Please fix the errors and try again.");
+    } catch (error: unknown) {
+      setLoginMessage(error instanceof Error ? error.message : "Invalid credentials. Try again.");
       setMessageType("error");
 
       setTimeout(() => {
@@ -44,7 +50,12 @@ export function Login() {
         setMessageType(null);
       }, 3000);
     }
-  };
+  } else {
+    setLoginMessage("Please fix the errors and try again.");
+    setMessageType("error");
+  }
+};
+
 
   const validate = () => {
     const newErrors: { username?: string; password?: string } = {};

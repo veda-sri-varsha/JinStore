@@ -4,6 +4,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
+import { auth } from "../../config/firebase"; 
+import { createUserWithEmailAndPassword} from "firebase/auth";
 
 export function Register() {
   const [role, setRole] = useState<string>("customer");
@@ -46,35 +48,35 @@ export function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validate()) {
-      // Store user data in localStorage and set login status
-      localStorage.setItem("username", username);
-      localStorage.setItem("email", email);
-      localStorage.setItem("role", role);
-      localStorage.setItem("isLoggedIn", "true");
-      
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (validate()) {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      // Optional: save username or role to Firestore if needed
       setRegisterMessage("Registered successfully!");
       setMessageType("success");
 
       setTimeout(() => {
         setRegisterMessage(null);
         setMessageType(null);
-        window.location.href = '/'; // Redirect to home page after successful registration
+        window.location.href = "/";
       }, 2000);
-
-      console.log("Registered Done");
-    } else {
-      setRegisterMessage("Fill the Required fields");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred during registration';
+      setRegisterMessage(errorMessage);
       setMessageType("error");
-
-      setTimeout(() => {
-        setRegisterMessage(null);
-        setMessageType(null);
-      }, 3000);
     }
-  };
+  } else {
+    setRegisterMessage("Fill the required fields");
+    setMessageType("error");
+    setTimeout(() => {
+      setRegisterMessage(null);
+      setMessageType(null);
+    }, 3000);
+  }
+};
+
 
   return (
     <div className="max-w-md mx-auto px-6 py-5 bg-white rounded-lg m-10">

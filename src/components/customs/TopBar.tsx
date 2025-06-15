@@ -14,6 +14,8 @@ import Logo from "../../assets/logo.png";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useCart } from "../../context/CartContext";
+import { auth } from "../../config/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export const TopBar = () => {
   const [timeLeft] = useState({
@@ -29,17 +31,33 @@ export const TopBar = () => {
   const { getTotalQuantity } = useCart();
   const total = getTotalQuantity();
 
-  // Check login status and username from localStorage on component mount
+  // Listen to authentication state changes
   useEffect(() => {
-    const loginStatus = localStorage.getItem("isLoggedIn") === "true";
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        // Get username from localStorage or extract from email
+        const storedUsername = localStorage.getItem("username") || user.email?.split("@")[0] || "User";
+        setUsername(storedUsername);
+      } else {
+        setIsLoggedIn(false);
+        setUsername("User");
+      }
+    });
+
+    // Also check localStorage on mount for immediate update
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     const storedUsername = localStorage.getItem("username") || "User";
     
-    setIsLoggedIn(loginStatus);
+    setIsLoggedIn(loggedIn);
     setUsername(storedUsername);
+
+    return () => unsubscribe();
   }, []);
 
   // Handle logout
   const handleLogout = () => {
+    auth.signOut();
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("username");
     setIsLoggedIn(false);
@@ -126,7 +144,7 @@ export const TopBar = () => {
               {isLoggedIn && (
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-3 py-1 bg-primary text-white text-xs rounded hover:bg-purple-900 transition-colors whitespace-nowrap"
+                  className="flex items-center gap-2 px-3 py-1 bg-primary text-white text-xs rounded hover:bg-purple-900 transition-colors whitespace-nowrap cursor-pointer"
                 >
                   <FaSignOutAlt className="w-4 h-4" />
                   Logout
