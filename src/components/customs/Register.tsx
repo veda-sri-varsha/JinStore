@@ -17,9 +17,11 @@ export function Register() {
     password?: string;
   }>({});
 
+  const [registerMessage, setRegisterMessage] = useState<string | null>(null);
+  const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
+
   const validate = () => {
-    const newErrors: { username?: string; email?: string; password?: string } =
-      {};
+    const newErrors: { username?: string; email?: string; password?: string } = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!username.trim()) {
@@ -41,15 +43,29 @@ export function Register() {
     }
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
+      setRegisterMessage( "Registered successfully!");
+      setMessageType("success");
+
+      setTimeout(() => {
+        setRegisterMessage(null);
+        setMessageType(null);
+      }, 5000);
+
       console.log("Registered Done");
-      // Proceed with API or Firebase call
+    } else {
+      setRegisterMessage("Fill the Requried fields ");
+      setMessageType("error");
+
+      setTimeout(() => {
+        setRegisterMessage(null);
+        setMessageType(null);
+      }, 5000);
     }
   };
 
@@ -64,10 +80,22 @@ export function Register() {
         </span>
       </div>
 
-      <p className="text-sm text-gray-600 mb-6 text-center">
+      <p className="text-sm text-gray-600 mb-4 text-center">
         There are many advantages to creating an account: faster checkout,
         shipment tracking, and more.
       </p>
+
+      {registerMessage && (
+        <div
+          className={`mb-4 px-4 py-2 text-sm rounded-md text-center font-medium transition duration-300 ${
+            messageType === "success"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {registerMessage}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4 text-left" noValidate>
         <div>
@@ -187,10 +215,15 @@ export function Register() {
             type="submit"
             className={`w-full text-white font-medium py-2 rounded-md transition ${
               username && password && email
-                ? "bg-primary hover:bg-violet-400"
-                : "bg-violet-900 cursor-not-allowed"
+          ? "bg-primary hover:bg-violet-400"
+          : "bg-violet-900 cursor-not-allowed"
             }`}
             disabled={!username || !password || !email}
+            onClick={() => {
+              if (username && password && email) {
+          window.location.href = '/';
+              }
+            }}
           >
             Register
           </Button>

@@ -15,13 +15,32 @@ export function Login() {
     password?: string;
   }>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Logged in");
-    if (validate()) {
-      alert("Form submitted");
-    }
-  };
+  const [loginMessage, setLoginMessage] = useState<string | null>(null);
+const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
+
+
+ const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  if (validate()) {
+    setLoginMessage("Logged in successfully!");
+    setMessageType("success");
+
+    // Simulate actual login logic or redirect
+    setTimeout(() => {
+      setLoginMessage(null);
+      setMessageType(null);
+    }, 3000); 
+  } else {
+    setLoginMessage("Please fix the errors and try again.");
+    setMessageType("error");
+
+    setTimeout(() => {
+      setLoginMessage(null);
+      setMessageType(null);
+    }, 3000);
+  }
+};
+
 
   const validate = () => {
     const newErrors: { username?: string; password?: string } = {};
@@ -56,6 +75,18 @@ export function Login() {
         <p className="text-center font-normal text-sm text-gray-600 mb-4 px-3 sm:px-0 leading-relaxed whitespace-normal sm:whitespace-nowrap">
           If you have an account, sign in with your username or email address.
         </p>
+
+        {loginMessage && (
+          <div
+            className={`mb-4 px-4 py-2 text-sm rounded-md text-center font-medium transition duration-300 ${
+              messageType === "success"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            {loginMessage}
+          </div>
+          )}           
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -129,17 +160,24 @@ export function Login() {
             </a>
           </div>
 
-          <Button
+            <Button
             type="submit"
             className={`w-full text-white font-medium py-2 rounded-md transition cursor-pointer ${
               username && password
-                ? "bg-primary hover:bg-violet-400"
-                : "bg-violet-900 cursor-not-allowed "
+              ? "bg-primary hover:bg-violet-400"
+              : "bg-violet-900 cursor-not-allowed "
             }`}
             disabled={!username || !password}
-          >
+            onClick={() => {
+              if (validate()) {
+              setTimeout(() => {
+                window.location.href = '/';
+              }, 2000);
+              }
+            }}
+            >
             Log in
-          </Button>
+            </Button>
         </form>
       </div>
     </div>
