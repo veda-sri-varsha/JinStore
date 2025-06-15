@@ -10,7 +10,6 @@ import {
 } from "../ui/card";
 import { Button } from "../ui/button";
 import { useCart } from "../../context/CartContext";
-import { useNavigate } from "react-router"; // ✅ ADD THIS
 
 export interface RawProduct {
   id: number;
@@ -32,7 +31,6 @@ export interface deals {
 export function ProductList() {
   const [products, setProducts] = useState<deals[]>([]);
   const { addToCart } = useCart();
-  const navigate = useNavigate(); // ✅ ADD THIS
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -69,7 +67,9 @@ export function ProductList() {
             <CardTitle>{product.title}</CardTitle>
             <CardDescription>{product.description}</CardDescription>
             <CardAction>
-              <span className="text-sm text-red-500 font-semibold">Hot Deal</span>
+              <span className="text-sm text-red-500 font-semibold">
+                Hot Deal
+              </span>
             </CardAction>
           </CardHeader>
 
@@ -81,17 +81,25 @@ export function ProductList() {
             />
             <div className="text-gray-700 text-sm">{product.description}</div>
             <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-green-600">${product.price}</span>
+              <span className="text-lg font-bold text-green-600">
+                ${product.price}
+              </span>
             </div>
           </CardContent>
 
           <CardFooter>
             <Button
-              className="w-full"
+              className="w-full cursor-pointer"
               variant="default"
               onClick={() => {
-                addToCart(product); // ✅ Add item
-                navigate("/cart");  // ✅ Redirect to cart
+                addToCart(product);
+
+                const existingItems = JSON.parse(
+                  localStorage.getItem("cartItems") || "[]"
+                );
+                const updatedItems = [...existingItems, product];
+                localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+
               }}
             >
               Add to Cart

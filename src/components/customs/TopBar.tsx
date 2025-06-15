@@ -13,6 +13,7 @@ import { HiX as X, HiMenu as Menu } from "react-icons/hi";
 import Logo from "../../assets/logo.png";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useCart } from "../../context/CartContext";
 
 export const TopBar = () => {
   const [timeLeft] = useState({
@@ -24,6 +25,8 @@ export const TopBar = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState(false);
+  const { getTotalQuantity } = useCart();
+  const total = getTotalQuantity();
 
   return (
     <div>
@@ -55,14 +58,14 @@ export const TopBar = () => {
         <div className="max-w-7xl mx-auto px-4 py-2 flex flex-row flex-wrap justify-between items-center gap-4">
           <div className="sm:flex flex-row flex-wrap items-center w-full text-xs">
             <div className="flex items-center gap-4 flex-wrap">
-                <Button
+              <Button
                 variant="ghost"
                 size="icon"
                 className="md:hidden"
                 onClick={() => setShowMenu(!showMenu)}
-                >
+              >
                 {showMenu ? <X size={24} /> : <Menu size={24} />}
-                </Button>
+              </Button>
 
               <div
                 className={`${
@@ -184,15 +187,16 @@ export const TopBar = () => {
                   0
                 </span>
               </button>
-                <Link
+              <Link
                 to="/cart"
                 className="relative text-gray-600 hover:text-purple-600 cursor-pointer"
-                >
+              >
                 <FaShoppingCart size={20} />
+
                 <span className="absolute -top-2.5 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  0
+                  {total}
                 </span>
-                </Link>
+              </Link>
             </div>
           </div>
 
