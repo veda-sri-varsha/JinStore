@@ -6,6 +6,8 @@ import RegisterPage from "../pages/RegisterPage";
 import {Cart} from "../components/customs/Cart";
 import { Contact } from "../components/customs/Contact";
 import { CheckoutPage } from "../components/customs/CheckoutPage";
+import ProductDetails from "../components/customs/ProductDetails";
+
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +19,8 @@ export const router = createBrowserRouter([
       { path: "register", element: <RegisterPage /> },
       {path:"cart",element:<Cart/>},
       {path:"Contact",element:<Contact/>},
-      {path:"checkout",element:<CheckoutPage/>}
+      {path:"checkout",element:<CheckoutPage/>},
+      {path:"/product/:id",element:<ProductDetails/>}
     ],
   },
 ]);
