@@ -16,31 +16,35 @@ export function Login() {
   }>({});
 
   const [loginMessage, setLoginMessage] = useState<string | null>(null);
-const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
+  const [messageType, setMessageType] = useState<"success" | "error" | null>(
+    null
+  );
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      // Store username in localStorage and set login status
+      localStorage.setItem("username", username.split('@')[0]); // Use part before @ if email
+      localStorage.setItem("isLoggedIn", "true");
+      
+      setLoginMessage("Logged in successfully!");
+      setMessageType("success");
 
- const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  if (validate()) {
-    setLoginMessage("Logged in successfully!");
-    setMessageType("success");
+      setTimeout(() => {
+        setLoginMessage(null);
+        setMessageType(null);
+        window.location.href = "/"; // Redirect to home page
+      }, 2000);
+    } else {
+      setLoginMessage("Please fix the errors and try again.");
+      setMessageType("error");
 
-    // Simulate actual login logic or redirect
-    setTimeout(() => {
-      setLoginMessage(null);
-      setMessageType(null);
-    }, 3000); 
-  } else {
-    setLoginMessage("Please fix the errors and try again.");
-    setMessageType("error");
-
-    setTimeout(() => {
-      setLoginMessage(null);
-      setMessageType(null);
-    }, 3000);
-  }
-};
-
+      setTimeout(() => {
+        setLoginMessage(null);
+        setMessageType(null);
+      }, 3000);
+    }
+  };
 
   const validate = () => {
     const newErrors: { username?: string; password?: string } = {};
@@ -86,7 +90,7 @@ const [messageType, setMessageType] = useState<"success" | "error" | null>(null)
           >
             {loginMessage}
           </div>
-          )}           
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -160,24 +164,17 @@ const [messageType, setMessageType] = useState<"success" | "error" | null>(null)
             </a>
           </div>
 
-            <Button
+          <Button
             type="submit"
             className={`w-full text-white font-medium py-2 rounded-md transition cursor-pointer ${
               username && password
-              ? "bg-primary hover:bg-violet-400"
-              : "bg-violet-900 cursor-not-allowed "
+                ? "bg-primary hover:bg-violet-400"
+                : "bg-violet-900 cursor-not-allowed "
             }`}
             disabled={!username || !password}
-            onClick={() => {
-              if (validate()) {
-              setTimeout(() => {
-                window.location.href = '/';
-              }, 2000);
-              }
-            }}
-            >
+          >
             Log in
-            </Button>
+          </Button>
         </form>
       </div>
     </div>

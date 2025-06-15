@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import {
   FaSearch,
@@ -24,9 +24,27 @@ export const TopBar = () => {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("User");
   const [showMenu, setShowMenu] = useState(false);
   const { getTotalQuantity } = useCart();
   const total = getTotalQuantity();
+
+  // Check login status and username from localStorage on component mount
+  useEffect(() => {
+    const loginStatus = localStorage.getItem("isLoggedIn") === "true";
+    const storedUsername = localStorage.getItem("username") || "User";
+    
+    setIsLoggedIn(loginStatus);
+    setUsername(storedUsername);
+  }, []);
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    setUsername("User");
+  };
 
   return (
     <div>
@@ -101,7 +119,7 @@ export const TopBar = () => {
 
               {isLoggedIn && (
                 <button
-                  onClick={() => setIsLoggedIn(false)}
+                  onClick={handleLogout}
                   className="flex items-center gap-2 px-3 py-1 bg-primary text-white text-xs rounded hover:bg-purple-900 transition-colors whitespace-nowrap"
                 >
                   <FaSignOutAlt className="w-4 h-4" />
@@ -171,16 +189,27 @@ export const TopBar = () => {
             </div>
 
             <div className="flex items-center gap-5">
-              <Link
-                to="/login"
-                className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 text-sm"
-              >
-                <FaUser size={20} />
-                <div className="flex flex-col">
-                  <span className="text-sm">Sign In</span>
-                  <span className="text-xs font-semibold">Account</span>
+              {isLoggedIn ? (
+                <div className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 text-sm">
+                  <FaUser size={20} />
+                  <div className="flex flex-col">
+                    <span className="text-sm">Hello,</span>
+                    <span className="text-xs font-semibold">{username}</span>
+                  </div>
                 </div>
-              </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 text-sm"
+                >
+                  <FaUser size={20} />
+                  <div className="flex flex-col">
+                    <span className="text-sm">Sign In</span>
+                    <span className="text-xs font-semibold">Account</span>
+                  </div>
+                </Link>
+              )}
+
               <button className="relative text-gray-600 hover:text-purple-600 cursor-pointer">
                 <FaHeart size={20} />
                 <span className="absolute -top-2 left-4 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">

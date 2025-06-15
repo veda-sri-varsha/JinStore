@@ -49,23 +49,30 @@ export function Register() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      setRegisterMessage( "Registered successfully!");
+      // Store user data in localStorage and set login status
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", email);
+      localStorage.setItem("role", role);
+      localStorage.setItem("isLoggedIn", "true");
+      
+      setRegisterMessage("Registered successfully!");
       setMessageType("success");
 
       setTimeout(() => {
         setRegisterMessage(null);
         setMessageType(null);
-      }, 5000);
+        window.location.href = '/'; // Redirect to home page after successful registration
+      }, 2000);
 
       console.log("Registered Done");
     } else {
-      setRegisterMessage("Fill the Requried fields ");
+      setRegisterMessage("Fill the Required fields");
       setMessageType("error");
 
       setTimeout(() => {
         setRegisterMessage(null);
         setMessageType(null);
-      }, 5000);
+      }, 3000);
     }
   };
 
@@ -215,15 +222,10 @@ export function Register() {
             type="submit"
             className={`w-full text-white font-medium py-2 rounded-md transition ${
               username && password && email
-          ? "bg-primary hover:bg-violet-400"
-          : "bg-violet-900 cursor-not-allowed"
+                ? "bg-primary hover:bg-violet-400"
+                : "bg-violet-900 cursor-not-allowed"
             }`}
             disabled={!username || !password || !email}
-            onClick={() => {
-              if (username && password && email) {
-          window.location.href = '/';
-              }
-            }}
           >
             Register
           </Button>
