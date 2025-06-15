@@ -112,10 +112,16 @@ export const TopBar = () => {
                 <span>English</span>
                 <FaChevronDown size={14} className="mt-[1px]" />
               </div>
-              <div className="flex items-center gap-1 whitespace-nowrap">
-                <span>USD</span>
-                <FaChevronDown size={14} className="mt-[1px]" />
-              </div>
+                <div className="relative flex items-center gap-1 whitespace-nowrap group">
+                  <span>IND</span>
+                  <FaChevronDown size={14} className="mt-[1px]" />
+                  <div className="absolute top-full right-0 hidden group-hover:block bg-white border border-gray-200 rounded shadow-lg mt-1">
+                  <div className="py-1">
+                    <button className="block w-full px-4 py-1 text-left hover:bg-gray-100">USD</button>
+                    <button className="block w-full px-4 py-1 text-left hover:bg-gray-100">IND</button>
+                  </div>
+                  </div>
+                </div>
 
               {isLoggedIn && (
                 <button

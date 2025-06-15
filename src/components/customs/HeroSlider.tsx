@@ -19,8 +19,8 @@ const slides = [
     heading: "Shopping with us for\nbetter quality and the best price",
     description:
       "We have prepared special discounts for you on grocery products.\nDon’t miss these opportunities...",
-    price: "$21.67",
-    oldPrice: "$26.87",
+    price: " ₹21.67",
+    oldPrice: " ₹26.87",
     buttonText: "Shop Now",
   },
   {
@@ -29,8 +29,8 @@ const slides = [
     heading: "Get the best quality products at the lowest prices",
     description:
       "Get organic and healthy veggies at a much lower price. Limited period offer.",
-    price: "$9.99",
-    oldPrice: "$15.00",
+    price: " ₹9.99",
+    oldPrice: " ₹15.00",
     buttonText: "Explore",
   },
   {
@@ -39,8 +39,8 @@ const slides = [
     heading: "Up to 70% off\non kitchen essentials",
     description:
       "Upgrade your kitchen with branded tools & appliances. Don’t miss out.",
-    price: "$39.99",
-    oldPrice: "$89.99",
+    price: " ₹39.99",
+    oldPrice: " ₹89.99",
     buttonText: "Grab Deal",
   },
 ];
