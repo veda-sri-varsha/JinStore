@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import {Cart} from "../components/customs/Cart";
 import { Contact } from "../components/customs/Contact";
+import { CheckoutPage } from "../components/customs/CheckoutPage";
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +16,8 @@ export const router = createBrowserRouter([
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
       {path:"cart",element:<Cart/>},
-      {path:"Contact",element:<Contact/>}
+      {path:"Contact",element:<Contact/>},
+      {path:"checkout",element:<CheckoutPage/>}
     ],
   },
 ]);
