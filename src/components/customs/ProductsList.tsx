@@ -10,6 +10,7 @@ import {
 } from "../ui/card";
 import { Button } from "../ui/button";
 import { useCart } from "../../context/CartContext";
+import { Link } from "react-router";
 
 export interface RawProduct {
   id: number;
@@ -57,15 +58,28 @@ export function ProductList() {
     fetchProducts();
   }, []);
 
-  if (products.length === 0) return <div>Loading...</div>;
+  if (products.length === 0)
+    return <div className="text-center py-6">Loading...</div>;
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4 py-8 max-w-7xl mx-auto">
       {products.map((product) => (
-        <Card key={product.id} className="w-full max-w-sm">
+        <Card
+          key={product.id}
+          className="w-full max-w-sm mx-auto shadow-lg hover:shadow-xl transition"
+        >
           <CardHeader className="border-b">
-            <CardTitle>{product.title}</CardTitle>
-            <CardDescription>{product.description}</CardDescription>
+            <CardTitle>
+              <Link
+                to={`/product/${product.id}`}
+                className="hover:underline text-black"
+              >
+                {product.title}
+              </Link>
+            </CardTitle>
+            <CardDescription className="line-clamp-2">
+              {product.description}
+            </CardDescription>
             <CardAction>
               <span className="text-sm text-red-500 font-semibold">
                 Hot Deal
@@ -74,15 +88,19 @@ export function ProductList() {
           </CardHeader>
 
           <CardContent className="flex flex-col gap-4">
-            <img
-              src={product.image}
-              alt={product.title}
-              className="rounded-lg h-40 object-cover w-full"
-            />
-            <div className="text-gray-700 text-sm">{product.description}</div>
+            <Link to={`/product/${product.id}`}>
+              <img
+                src={product.image}
+                alt={product.title}
+                className="rounded-lg h-40 object-cover w-full"
+              />
+            </Link>
+            <div className="text-gray-700 text-sm line-clamp-2">
+              {product.description}
+            </div>
             <div className="flex items-center justify-between">
               <span className="text-lg font-bold text-green-600">
-                ${product.price}
+                ₹{product.price}
               </span>
             </div>
           </CardContent>
@@ -92,14 +110,20 @@ export function ProductList() {
               className="w-full cursor-pointer"
               variant="default"
               onClick={() => {
-                addToCart(product);
+                const dealProductWithQty = {
+                  ...product,
+                  quantity: 1,
+                };
+
+                addToCart(dealProductWithQty);
 
                 const existingItems = JSON.parse(
                   localStorage.getItem("cartItems") || "[]"
                 );
-                const updatedItems = [...existingItems, product];
-                localStorage.setItem("cartItems", JSON.stringify(updatedItems));
 
+                const updatedItems = [...existingItems, dealProductWithQty];
+
+                localStorage.setItem("cartItems", JSON.stringify(updatedItems));
               }}
             >
               Add to Cart

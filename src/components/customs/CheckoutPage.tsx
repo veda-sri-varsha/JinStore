@@ -13,9 +13,24 @@ import {
 
 export function CheckoutPage() {
   const { cart } = useCart();
-  const [agreed, setAgreed] = useState<boolean>(false);
-  const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
+  const [agreed, setAgreed] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    companyName: "",
+    country: "United States (US)",
+    street: "",
+    apartment: "",
+    city: "",
+    state: "",
+    zip: "",
+    phone: "",
+    email: "",
+    orderNotes: "",
+  });
 
   useEffect(() => {
     const loginStatus = localStorage.getItem("isLoggedIn") === "true";
@@ -30,12 +45,38 @@ export function CheckoutPage() {
   const total = subtotal + shipping;
 
   const handlePlaceOrder = () => {
-    if (!agreed) return;
-    setOrderSuccess(true);
+    if (!isLoggedIn) {
+      alert("Please log in to place an order.");
+      return;
+    }
 
-    setTimeout(() => {
-      setOrderSuccess(false);
-    }, 4000);
+    if (!agreed) {
+      alert("Please agree to the terms and conditions.");
+      return;
+    }
+
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "street",
+      "city",
+      "state",
+      "zip",
+      "phone",
+      "email",
+    ];
+
+    const allFilled = requiredFields.every(
+      (key) => formData[key as keyof typeof formData].trim() !== ""
+    );
+
+    if (!allFilled) {
+      alert("Please fill in all required billing details.");
+      return;
+    }
+
+    setOrderSuccess(true);
+    setTimeout(() => setOrderSuccess(false), 4000);
   };
 
   return (
@@ -62,19 +103,44 @@ export function CheckoutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="firstName">First Name</Label>
-            <Input id="firstName" name="firstName" required />
+            <Input
+              id="firstName"
+              value={formData.firstName}
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value })
+              }
+              required
+            />
           </div>
           <div>
             <Label htmlFor="lastName">Last Name</Label>
-            <Input id="lastName" name="lastName" required />
+            <Input
+              id="lastName"
+              value={formData.lastName}
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value })
+              }
+              required
+            />
           </div>
           <div className="sm:col-span-2">
             <Label htmlFor="companyName">Company Name (Optional)</Label>
-            <Input id="companyName" name="companyName" />
+            <Input
+              id="companyName"
+              value={formData.companyName}
+              onChange={(e) =>
+                setFormData({ ...formData, companyName: e.target.value })
+              }
+            />
           </div>
           <div>
             <Label htmlFor="country">Country / Region</Label>
-            <Select defaultValue="United States (US)">
+            <Select
+              value={formData.country}
+              onValueChange={(value) =>
+                setFormData({ ...formData, country: value })
+              }
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -89,33 +155,83 @@ export function CheckoutPage() {
           </div>
           <div className="sm:col-span-2">
             <Label htmlFor="street">Street Address</Label>
-            <Input id="street" name="street" required />
+            <Input
+              id="street"
+              value={formData.street}
+              onChange={(e) =>
+                setFormData({ ...formData, street: e.target.value })
+              }
+              required
+            />
           </div>
           <div className="sm:col-span-2">
             <Label htmlFor="apartment">
               Apartment, suite, unit, etc. (Optional)
             </Label>
-            <Input id="apartment" name="apartment" />
+            <Input
+              id="apartment"
+              value={formData.apartment}
+              onChange={(e) =>
+                setFormData({ ...formData, apartment: e.target.value })
+              }
+            />
           </div>
           <div>
             <Label htmlFor="city">Town / City</Label>
-            <Input id="city" name="city" required />
+            <Input
+              id="city"
+              value={formData.city}
+              onChange={(e) =>
+                setFormData({ ...formData, city: e.target.value })
+              }
+              required
+            />
           </div>
           <div>
             <Label htmlFor="state">State</Label>
-            <Input id="state" name="state" required />
+            <Input
+              id="state"
+              value={formData.state}
+              onChange={(e) =>
+                setFormData({ ...formData, state: e.target.value })
+              }
+              required
+            />
           </div>
           <div>
             <Label htmlFor="zip">ZIP Code</Label>
-            <Input id="zip" name="zip" required />
+            <Input
+              id="zip"
+              value={formData.zip}
+              onChange={(e) =>
+                setFormData({ ...formData, zip: e.target.value })
+              }
+              required
+            />
           </div>
           <div>
             <Label htmlFor="phone">Phone</Label>
-            <Input id="phone" name="phone" type="tel" required />
+            <Input
+              id="phone"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
+              type="tel"
+              required
+            />
           </div>
           <div className="sm:col-span-2">
             <Label htmlFor="email">Email address</Label>
-            <Input id="email" name="email" type="email" required />
+            <Input
+              id="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              type="email"
+              required
+            />
           </div>
         </div>
 
@@ -126,6 +242,10 @@ export function CheckoutPage() {
             className="w-full mt-1 rounded border border-gray-300 px-3 py-2 text-sm"
             rows={4}
             placeholder="Notes about your order, e.g. special notes for delivery."
+            value={formData.orderNotes}
+            onChange={(e) =>
+              setFormData({ ...formData, orderNotes: e.target.value })
+            }
           />
         </div>
       </div>
@@ -139,7 +259,7 @@ export function CheckoutPage() {
               <span>
                 {item.title} × {item.quantity}
               </span>
-              <span>${(item.price * item.quantity).toFixed(2)}</span>
+              <span>₹{(item.price * item.quantity).toFixed(2)}</span>
             </li>
           ))}
         </ul>
@@ -147,15 +267,15 @@ export function CheckoutPage() {
         <div className="border-t pt-4 text-sm space-y-2">
           <div className="flex justify-between">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>₹{subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between">
             <span>Shipping</span>
-            <span>${shipping.toFixed(2)}</span>
+            <span>₹{shipping.toFixed(2)}</span>
           </div>
           <div className="flex justify-between font-bold">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>₹{total.toFixed(2)}</span>
           </div>
         </div>
 
@@ -203,14 +323,14 @@ export function CheckoutPage() {
         </div>
 
         {orderSuccess && (
-          <div className="text-green-600 text-sm text-center font-medium pt-2">
+          <div className="bg-green-100 text-green-600 text-sm text-center font-medium pt-2">
             Order placed successfully! Your items will be delivered soon.
           </div>
         )}
 
         <Button
           className="w-full mt-4"
-          disabled={!agreed}
+          disabled={!isLoggedIn || !agreed}
           onClick={handlePlaceOrder}
         >
           Place Order
