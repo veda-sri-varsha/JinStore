@@ -6,7 +6,7 @@ import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
 
 export function CheckoutPage() {
-  const { cart } = useCart(); // Removed unused getTotalQuantity
+  const { cart } = useCart();
   const [agreed, setAgreed] = useState(false);
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -15,7 +15,6 @@ export function CheckoutPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Billing Details */}
       <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border">
         <h2 className="text-xl font-semibold mb-4">Billing Details</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -95,7 +94,6 @@ export function CheckoutPage() {
         </div>
       </div>
 
-      {/* Order Summary */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-4">
         <h2 className="text-xl font-semibold">Your Order</h2>
         <ul className="divide-y text-sm">
@@ -122,7 +120,6 @@ export function CheckoutPage() {
           </div>
         </div>
 
-        {/* Payment Options */}
         <div className="pt-4 space-y-2 text-sm">
           <Label>
             <input type="radio" name="payment" defaultChecked className="mr-2" id="bank-transfer" />
