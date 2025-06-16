@@ -62,7 +62,6 @@ export function Cart() {
                 key={item.id}
                 className="flex flex-col sm:flex-row gap-4 border p-4 rounded-lg shadow-sm bg-white"
               >
-                {/* Product Image */}
                 <div className="flex-shrink-0">
                   <img
                     src={
@@ -75,7 +74,6 @@ export function Cart() {
                   />
                 </div>
 
-                {/* Product Details */}
                 <div className="flex flex-col justify-between flex-grow">
                   <div className="flex justify-between items-start">
                     <div>
@@ -94,7 +92,6 @@ export function Cart() {
                     </button>
                   </div>
 
-                  {/* Quantity and Price */}
                   <div className="flex justify-between items-center mt-4">
                     <div className="flex items-center gap-2">
                       <Button
