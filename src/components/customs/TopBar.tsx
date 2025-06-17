@@ -31,13 +31,14 @@ export const TopBar = () => {
   const { getTotalQuantity } = useCart();
   const total = getTotalQuantity();
 
-  // Listen to authentication state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLoggedIn(true);
-        // Get username from localStorage or extract from email
-        const storedUsername = localStorage.getItem("username") || user.email?.split("@")[0] || "User";
+        const storedUsername =
+          localStorage.getItem("username") ||
+          user.email?.split("@")[0] ||
+          "User";
         setUsername(storedUsername);
       } else {
         setIsLoggedIn(false);
@@ -45,17 +46,15 @@ export const TopBar = () => {
       }
     });
 
-    // Also check localStorage on mount for immediate update
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     const storedUsername = localStorage.getItem("username") || "User";
-    
+
     setIsLoggedIn(loggedIn);
     setUsername(storedUsername);
 
     return () => unsubscribe();
   }, []);
 
-  // Handle logout
   const handleLogout = () => {
     auth.signOut();
     localStorage.removeItem("isLoggedIn");
@@ -130,16 +129,20 @@ export const TopBar = () => {
                 <span>English</span>
                 <FaChevronDown size={14} className="mt-[1px]" />
               </div>
-                <div className="relative flex items-center gap-1 whitespace-nowrap group">
-                  <span>IND</span>
-                  <FaChevronDown size={14} className="mt-[1px]" />
-                  <div className="absolute top-full right-0 hidden group-hover:block bg-white border border-gray-200 rounded shadow-lg mt-1">
+              <div className="relative flex items-center gap-1 whitespace-nowrap group">
+                <span>IND</span>
+                <FaChevronDown size={14} className="mt-[1px]" />
+                <div className="absolute top-full right-0 hidden group-hover:block bg-white border border-gray-200 rounded shadow-lg mt-1">
                   <div className="py-1">
-                    <button className="block w-full px-4 py-1 text-left hover:bg-gray-100">USD</button>
-                    <button className="block w-full px-4 py-1 text-left hover:bg-gray-100">IND</button>
-                  </div>
+                    <button className="block w-full px-4 py-1 text-left hover:bg-gray-100">
+                      USD
+                    </button>
+                    <button className="block w-full px-4 py-1 text-left hover:bg-gray-100">
+                      IND
+                    </button>
                   </div>
                 </div>
+              </div>
 
               {isLoggedIn && (
                 <button
