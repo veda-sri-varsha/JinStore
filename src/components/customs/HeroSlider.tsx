@@ -73,7 +73,7 @@ export default function HeroSlider() {
             />
 
             <div className="absolute top-1/4 left-8 max-w-md  text-black p-6 ">
-              <div className="inline-block mb-2 px-3 py-1 rounded text-sm font-bold text-green-800  bg-gradient-to-r from-green-100 to-white">
+              <div className="inline-block mb-2 px-3 py-1 rounded text-sm font-bold text-green-800 bg-gradient-to-r from-green-400/50 via-green-200/10 to-white">
                 {slide.label}
               </div>
 
