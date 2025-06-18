@@ -4,9 +4,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
-import { auth } from "../../config/firebase"; 
-import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { auth } from "../../config/firebase";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 
 export function Login() {
   const [username, setUsername] = useState<string>("");
@@ -17,45 +20,12 @@ export function Login() {
     username?: string;
     password?: string;
   }>({});
-
   const [loginMessage, setLoginMessage] = useState<string | null>(null);
   const [messageType, setMessageType] = useState<"success" | "error" | null>(
     null
   );
 
-  
-
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (validate()) {
-    try {
-      await signInWithEmailAndPassword(auth, username, password);
-      localStorage.setItem("username", username.split("@")[0]);
-      localStorage.setItem("isLoggedIn", "true");
-
-      setLoginMessage("Logged in successfully!");
-      setMessageType("success");
-
-      setTimeout(() => {
-        setLoginMessage(null);
-        setMessageType(null);
-        window.location.href = "/";
-      }, 2000);
-    } catch (error: unknown) {
-      setLoginMessage(error instanceof Error ? error.message : "Invalid credentials. Try again.");
-      setMessageType("error");
-
-      setTimeout(() => {
-        setLoginMessage(null);
-        setMessageType(null);
-      }, 3000);
-    }
-  } else {
-    setLoginMessage("Please fix the errors and try again.");
-    setMessageType("error");
-  }
-};
-
+  const provider = new GoogleAuthProvider();
 
   const validate = () => {
     const newErrors: { username?: string; password?: string } = {};
@@ -67,28 +37,94 @@ const handleSubmit = async (e: React.FormEvent) => {
     if (password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
     }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      try {
+        await signInWithEmailAndPassword(auth, username, password);
+        localStorage.setItem("username", username.split("@")[0]);
+        localStorage.setItem("isLoggedIn", "true");
+
+        setLoginMessage("Logged in successfully!");
+        setMessageType("success");
+
+        setTimeout(() => {
+          setLoginMessage(null);
+          setMessageType(null);
+          window.location.href = "/";
+        }, 2000);
+      } catch (error: unknown) {
+        setMessageType("error");
+        if (error instanceof Error) {
+          setLoginMessage(error.message);
+        } else {
+          setLoginMessage("Invalid credentials. Try again.");
+        }
+        setTimeout(() => {
+          setLoginMessage(null);
+          setMessageType(null);
+        }, 3000);
+      }
+    } else {
+      setLoginMessage("Please fix the errors and try again.");
+      setMessageType("error");
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      localStorage.setItem("username", user.displayName || user.email || "");
+      localStorage.setItem("isLoggedIn", "true");
+
+      setLoginMessage("Logged in with Google successfully!");
+      setMessageType("success");
+
+      setTimeout(() => {
+        setLoginMessage(null);
+        setMessageType(null);
+        window.location.href = "/";
+      }, 2000);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Google sign-in error:", error.message);
+      } else {
+        console.error("Google sign-in failed with an unknown error.");
+      }
+
+      setLoginMessage("Google sign-in failed.");
+      setMessageType("error");
+
+      setTimeout(() => {
+        setLoginMessage(null);
+        setMessageType(null);
+      }, 3000);
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center min-h-screen cursor-pointer">
-      <div className="w-full max-w-md p-8 border-none rounded">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-md p-8 rounded">
         <div className="flex space-x-4 mb-4 justify-center">
           <Link to="/">
-            <h2 className="text-lg font-semibold text-black cursor-pointer  border-b-2 border-black pb-1">
+            <h2 className="text-lg font-semibold text-black border-b-2 border-black pb-1">
               Login
             </h2>
           </Link>
           <Link to="/register">
-            <h2 className="text-lg font-medium text-gray-400 cursor-pointer">
-              Register
-            </h2>
+            <h2 className="text-lg font-medium text-gray-400">Register</h2>
           </Link>
         </div>
 
-        <p className="text-center font-normal text-sm text-gray-600 mb-4 px-3 sm:px-0 leading-relaxed whitespace-normal sm:whitespace-nowrap">
-          If you have an account, sign in with your username or email address.
+        <p className="text-center text-sm text-gray-600 mb-4 px-3 sm:px-0">
+          If you have an account, sign in with your email and password.
         </p>
 
         {loginMessage && (
@@ -106,11 +142,11 @@ const handleSubmit = async (e: React.FormEvent) => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="username" className="p-2">
-              Username or email address<span className="text-red-500">*</span>
+              Email address<span className="text-red-500">*</span>
             </Label>
             <Input
               id="username"
-              type="text"
+              type="email"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onBlur={validate}
@@ -130,7 +166,6 @@ const handleSubmit = async (e: React.FormEvent) => {
             <Label htmlFor="password" className="p-2">
               Password<span className="text-red-500">*</span>
             </Label>
-
             <div className="relative">
               <Input
                 id="password"
@@ -154,7 +189,6 @@ const handleSubmit = async (e: React.FormEvent) => {
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
-
             {errors.password && (
               <p className="text-sm text-red-600 mt-1">{errors.password}</p>
             )}
@@ -177,14 +211,28 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           <Button
             type="submit"
-            className={`w-full text-white font-medium py-2 rounded-md transition cursor-pointer ${
+            className={`w-full text-white font-medium py-2 rounded-md transition ${
               username && password
                 ? "bg-primary hover:bg-violet-400"
-                : "bg-violet-900 cursor-not-allowed "
+                : "bg-violet-900 cursor-not-allowed"
             }`}
             disabled={!username || !password}
           >
             Log in
+          </Button>
+
+          <div className="flex items-center">
+            <div className="flex-grow border-t border-gray-300" />
+            <span className="mx-2 text-gray-500 text-sm">OR</span>
+            <div className="flex-grow border-t border-gray-300" />
+          </div>
+
+          <Button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="w-full bg-primary hover:bg-violet-900 text-white font-medium py-2 rounded-md"
+          >
+            Sign in with Google
           </Button>
         </form>
       </div>
