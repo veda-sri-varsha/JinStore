@@ -22,6 +22,23 @@ export default function ProductDetails() {
   const { addToCart } = useCart();
   const [product, setProduct] = useState<RawProduct | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [wishlist, setWishlist] = useState<string[]>([]);
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    setWishlist(stored);
+  }, []);
+
+  const toggleWishlist = (productId: string) => {
+    const updated = wishlist.includes(productId)
+      ? wishlist.filter((id) => id !== productId)
+      : [...wishlist, productId];
+
+    setWishlist(updated);
+    localStorage.setItem("wishlist", JSON.stringify(updated));
+  };
+
+  const isInWishlist = wishlist.includes(product?.id.toString() || "");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -43,7 +60,6 @@ export default function ProductDetails() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-        {/* Left: Product Images */}
         <div>
           <img
             src={product.thumbnail}
@@ -185,12 +201,20 @@ export default function ProductDetails() {
               Buy Now
             </Button>
           </div>
+          <Button
+            variant="ghost"
+            className={`w-40 border ${
+              isInWishlist ? "border-pink-500 text-pink-600" : "text-gray-500"
+            }`}
+            onClick={() => toggleWishlist(product.id.toString())}
+          >
+            {isInWishlist ? "❤️ Wishlisted" : "🤍 Add to Wishlist"}
+          </Button>
 
           <p className="text-gray-600 text-sm mt-6">{product.description}</p>
         </div>
       </div>
 
-      {/* Description/Reviews Tabs */}
       <div className="mt-12 border-t pt-6">
         <h2 className="text-xl font-semibold mb-2">Product Description</h2>
         <p className="text-sm text-gray-700 leading-relaxed">
