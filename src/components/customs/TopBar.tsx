@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 import { useCart } from "../../context/CartContext";
 import { auth } from "../../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { useSearch } from "../../context/SearchContext";
 
 export const TopBar = () => {
   const [timeLeft] = useState({
@@ -30,9 +31,10 @@ export const TopBar = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const { getTotalQuantity } = useCart();
   const total = getTotalQuantity();
+  const { searchTerm, setSearchTerm } = useSearch();
 
   const handleSearch = () => {
-    console.log("Search value:", input);
+    console.log("Search value:", searchTerm);
   };
 
   useEffect(() => {
@@ -69,7 +71,6 @@ export const TopBar = () => {
 
   return (
     <div>
-      {/* Top sale banner */}
       <div className="hidden md:block bg-primary text-white py-2 px-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center gap-6 md:gap-30 text-sm text-center">
           <span className="block md:inline">
@@ -94,7 +95,6 @@ export const TopBar = () => {
         </div>
       </div>
 
-      {/* Account header */}
       <header className="bg-white shadow-sm text-xs text-gray-500 font-sans border border-grey-200 cursor-pointer">
         <div className="max-w-7xl mx-auto px-4 py-2 flex flex-row flex-wrap justify-between items-center gap-4">
           <div className="sm:flex flex-row flex-wrap items-center w-full text-xs">
@@ -164,11 +164,9 @@ export const TopBar = () => {
         </div>
       </header>
 
-      {/* Main header */}
       <header className="bg-white shadow-sm cursor-pointer">
         <div className="max-w-7xl mx-auto px-3 py-2.5">
           <div className="flex items-center justify-between">
-            {/* Logo & Location */}
             <div className="flex items-center gap-4">
               <Link to="/" className="flex items-center gap-2 cursor-pointer">
                 <img
@@ -182,13 +180,12 @@ export const TopBar = () => {
               </Link>
             </div>
 
-            {/* Search bar (Desktop) */}
             <div className="flex-1 mx-6 hidden md:block">
               <div className="relative">
                 <Input
                   type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search for products, categories or brands..."
                   className="w-full px-4 py-2 pr-12 rounded-md bg-gray-100 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all"
                 />
@@ -203,7 +200,6 @@ export const TopBar = () => {
               </div>
             </div>
 
-            {/* Icons */}
             <div className="flex items-center gap-5">
               {isLoggedIn ? (
                 <div className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 text-sm">
@@ -244,7 +240,6 @@ export const TopBar = () => {
             </div>
           </div>
 
-          {/* Search bar (Mobile) */}
           <div className="mt-4 md:hidden">
             <div className="relative">
               <Input

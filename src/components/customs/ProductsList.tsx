@@ -11,6 +11,7 @@ import {
 import { Button } from "../ui/button";
 import { useCart } from "../../context/CartContext";
 import { Link } from "react-router";
+import { useSearch } from "../../context/SearchContext";
 
 export interface RawProduct {
   id: number;
@@ -33,6 +34,7 @@ export function ProductList() {
   const [products, setProducts] = useState<deals[]>([]);
   const { addToCart } = useCart();
   const [message, setMessage] = useState("");
+  const { searchTerm } = useSearch();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -66,8 +68,13 @@ export function ProductList() {
     }
   }, [message]);
 
-  if (products.length === 0)
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (products.length === 0) {
     return <div className="text-center py-6">Loading...</div>;
+  }
 
   return (
     <>
@@ -78,89 +85,89 @@ export function ProductList() {
       )}
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4 py-8 max-w-7xl mx-auto">
-        {products.map((product) => (
-          <Card
-            key={product.id}
-            className="w-full max-w-sm mx-auto shadow-lg hover:shadow-xl transition"
-          >
-            <CardHeader className="border-b">
-              <CardTitle>
-                <Link
-                  to={`/product/${product.id}`}
-                  className="hover:underline text-black"
-                >
-                  {product.title}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <Card
+              key={product.id}
+              className="w-full max-w-sm mx-auto shadow-lg hover:shadow-xl transition"
+            >
+              <CardHeader className="border-b">
+                <CardTitle>
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="hover:underline text-black"
+                  >
+                    {product.title}
+                  </Link>
+                </CardTitle>
+                <CardDescription className="line-clamp-2">
+                  {product.description}
+                </CardDescription>
+                <CardAction>
+                  <span className="text-sm text-red-500 font-semibold">
+                    Hot Deal
+                  </span>
+                </CardAction>
+              </CardHeader>
+
+              <CardContent className="flex flex-col gap-4">
+                <Link to={`/product/${product.id}`}>
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="rounded-lg h-40 object-cover w-full"
+                  />
                 </Link>
-              </CardTitle>
-              <CardDescription className="line-clamp-2">
-                {product.description}
-              </CardDescription>
-              <CardAction>
-                <span className="text-sm text-red-500 font-semibold">
-                  Hot Deal
-                </span>
-              </CardAction>
-            </CardHeader>
+                <div className="text-gray-700 text-sm line-clamp-2">
+                  {product.description}
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-bold text-green-600">
+                    ₹{product.price}
+                  </span>
+                </div>
+              </CardContent>
 
-            <CardContent className="flex flex-col gap-4">
-              <Link to={`/product/${product.id}`}>
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="rounded-lg h-40 object-cover w-full"
-                />
-              </Link>
-              <div className="text-gray-700 text-sm line-clamp-2">
-                {product.description}
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-lg font-bold text-green-600">
-                  ₹{product.price}
-                </span>
-              </div>
-            </CardContent>
+              <CardFooter>
+                <Button
+                  className="w-full cursor-pointer"
+                  variant="default"
+                  onClick={() => {
+                    const isLoggedIn =
+                      localStorage.getItem("isLoggedIn") === "true";
 
-            <CardFooter>
-              <Button
-                className="w-full cursor-pointer"
-                variant="default"
-                onClick={() => {
-                  const userData = localStorage.getItem("user");
-                  const isLoggedIn =
-                    userData && JSON.parse(userData)?.isLoggedIn;
+                    if (!isLoggedIn) {
+                      setMessage("Please Login or Register to Add Items to Cart.");
+                      return;
+                    }
 
-                  if (!isLoggedIn) {
-                    setMessage(
-                      "Please Login or Register to Add Items to Cart."
+                    const dealProductWithQty = {
+                      ...product,
+                      quantity: 1,
+                    };
+
+                    addToCart(dealProductWithQty);
+
+                    const existingItems = JSON.parse(
+                      localStorage.getItem("cartItems") || "[]"
                     );
-                    return;
-                  }
 
-                  const dealProductWithQty = {
-                    ...product,
-                    quantity: 1,
-                  };
+                    const updatedItems = [...existingItems, dealProductWithQty];
+                    localStorage.setItem("cartItems", JSON.stringify(updatedItems));
 
-                  addToCart(dealProductWithQty);
-
-                  const existingItems = JSON.parse(
-                    localStorage.getItem("cartItems") || "[]"
-                  );
-
-                  const updatedItems = [...existingItems, dealProductWithQty];
-                  localStorage.setItem(
-                    "cartItems",
-                    JSON.stringify(updatedItems)
-                  );
-
-                  setMessage("Item added to cart.");
-                }}
-              >
-                Add to Cart
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
+                    setMessage("Item added to cart.");
+                  }}
+                >
+                  Add to Cart
+                </Button>
+              </CardFooter>
+            </Card>
+          ))
+        ) : (
+          <div className="text-center col-span-full text-gray-600 text-lg py-8">
+            No products found for "<span className="font-semibold">{searchTerm}</span>"
+          </div>
+        )}
       </div>
     </>
   );
