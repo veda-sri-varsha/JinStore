@@ -10,13 +10,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
+import { useNavigate } from "react-router"; 
 
 export function CheckoutPage() {
-  const { cart } = useCart();
-  const [agreed, setAgreed] = useState(false);
-  const [orderSuccess, setOrderSuccess] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { cart, clearCart } = useCart(); 
+  const [agreed, setAgreed] = useState<boolean>(false);
+  const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [countries, setCountries] = useState<string[]>([]);
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -55,9 +58,7 @@ export function CheckoutPage() {
     };
 
     fetchCountries();
-
-    const loginStatus = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loginStatus);
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, []);
 
   const subtotal = cart.reduce(
@@ -99,7 +100,13 @@ export function CheckoutPage() {
     }
 
     setOrderSuccess(true);
-    setTimeout(() => setOrderSuccess(false), 4000);
+
+    setTimeout(() => {
+      localStorage.removeItem("cartItems");
+      if (clearCart) clearCart();
+      setOrderSuccess(false);
+      navigate("/");
+    }, 2000);
   };
 
   return (
@@ -277,6 +284,7 @@ export function CheckoutPage() {
         </div>
       </div>
 
+      {/* Right Side - Order Summary */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-4">
         <h2 className="text-xl font-semibold">Your Order</h2>
 
@@ -308,31 +316,15 @@ export function CheckoutPage() {
 
         <div className="pt-4 space-y-2 text-sm">
           <Label>
-            <input
-              type="radio"
-              name="payment"
-              defaultChecked
-              className="mr-2"
-              id="bank-transfer"
-            />
+            <input type="radio" name="payment" defaultChecked className="mr-2" />
             Direct Bank Transfer
           </Label>
           <Label>
-            <input
-              type="radio"
-              name="payment"
-              className="mr-2"
-              id="check-payments"
-            />
+            <input type="radio" name="payment" className="mr-2" />
             Check Payments
           </Label>
           <Label>
-            <input
-              type="radio"
-              name="payment"
-              className="mr-2"
-              id="cash-delivery"
-            />
+            <input type="radio" name="payment" className="mr-2" />
             Cash on Delivery
           </Label>
         </div>
