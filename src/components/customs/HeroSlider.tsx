@@ -4,9 +4,7 @@ import img1 from "../../assets/Hero-1.jpg";
 import img2 from "../../assets/Hero-2.jpg";
 import img3 from "../../assets/Hero-3.jpg";
 import FrVeg from "../../assets/Fruits-1.png";
-import Baby from "../../assets/Baby.png";
 import Fish from "../../assets/Fish.png";
-import GS from "../../assets/GS.png";
 import sp from "../../assets/sp.png";
 import Frood from "../../assets/Frood.png";
 import Bread from "../../assets/Bread.png";
@@ -127,18 +125,7 @@ export default function HeroSlider() {
             </span>
           </div>
 
-          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
-                src={Baby}
-                alt="Baby & Pregnancy"
-                className="object-contain w-full h-full"
-              />
-            </div>
-            <span className="text-xs font-medium text-gray-800">
-              Baby & Pregnancy
-            </span>
-          </div>
+         
 
           <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
@@ -203,18 +190,7 @@ export default function HeroSlider() {
             </span>
           </div>
 
-          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
-                src={GS}
-                alt="Grocery & Staples"
-                className="object-contain w-full h-full"
-              />
-            </div>
-            <span className="text-xs font-medium text-gray-800">
-              Grocery & Staples
-            </span>
-          </div>
+          
         </div>
       </div>
     </>
