@@ -32,6 +32,7 @@ export interface deals {
 export function ProductList() {
   const [products, setProducts] = useState<deals[]>([]);
   const { addToCart } = useCart();
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -58,79 +59,109 @@ export function ProductList() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   if (products.length === 0)
     return <div className="text-center py-6">Loading...</div>;
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4 py-8 max-w-7xl mx-auto">
-      {products.map((product) => (
-        <Card
-          key={product.id}
-          className="w-full max-w-sm mx-auto shadow-lg hover:shadow-xl transition"
-        >
-          <CardHeader className="border-b">
-            <CardTitle>
-              <Link
-                to={`/product/${product.id}`}
-                className="hover:underline text-black"
-              >
-                {product.title}
+    <>
+      {message && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-200 border border-green-400 text-green-800 px-4 py-2 rounded-md shadow z-50">
+          {message}
+        </div>
+      )}
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4 py-8 max-w-7xl mx-auto">
+        {products.map((product) => (
+          <Card
+            key={product.id}
+            className="w-full max-w-sm mx-auto shadow-lg hover:shadow-xl transition"
+          >
+            <CardHeader className="border-b">
+              <CardTitle>
+                <Link
+                  to={`/product/${product.id}`}
+                  className="hover:underline text-black"
+                >
+                  {product.title}
+                </Link>
+              </CardTitle>
+              <CardDescription className="line-clamp-2">
+                {product.description}
+              </CardDescription>
+              <CardAction>
+                <span className="text-sm text-red-500 font-semibold">
+                  Hot Deal
+                </span>
+              </CardAction>
+            </CardHeader>
+
+            <CardContent className="flex flex-col gap-4">
+              <Link to={`/product/${product.id}`}>
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="rounded-lg h-40 object-cover w-full"
+                />
               </Link>
-            </CardTitle>
-            <CardDescription className="line-clamp-2">
-              {product.description}
-            </CardDescription>
-            <CardAction>
-              <span className="text-sm text-red-500 font-semibold">
-                Hot Deal
-              </span>
-            </CardAction>
-          </CardHeader>
+              <div className="text-gray-700 text-sm line-clamp-2">
+                {product.description}
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-bold text-green-600">
+                  ₹{product.price}
+                </span>
+              </div>
+            </CardContent>
 
-          <CardContent className="flex flex-col gap-4">
-            <Link to={`/product/${product.id}`}>
-              <img
-                src={product.image}
-                alt={product.title}
-                className="rounded-lg h-40 object-cover w-full"
-              />
-            </Link>
-            <div className="text-gray-700 text-sm line-clamp-2">
-              {product.description}
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-green-600">
-                ₹{product.price}
-              </span>
-            </div>
-          </CardContent>
+            <CardFooter>
+              <Button
+                className="w-full cursor-pointer"
+                variant="default"
+                onClick={() => {
+                  const userData = localStorage.getItem("user");
+                  const isLoggedIn =
+                    userData && JSON.parse(userData)?.isLoggedIn;
 
-          <CardFooter>
-            <Button
-              className="w-full cursor-pointer"
-              variant="default"
-              onClick={() => {
-                const dealProductWithQty = {
-                  ...product,
-                  quantity: 1,
-                };
+                  if (!isLoggedIn) {
+                    setMessage(
+                      "Please Login or Register to Add Items to Cart."
+                    );
+                    return;
+                  }
 
-                addToCart(dealProductWithQty);
+                  const dealProductWithQty = {
+                    ...product,
+                    quantity: 1,
+                  };
 
-                const existingItems = JSON.parse(
-                  localStorage.getItem("cartItems") || "[]"
-                );
+                  addToCart(dealProductWithQty);
 
-                const updatedItems = [...existingItems, dealProductWithQty];
+                  const existingItems = JSON.parse(
+                    localStorage.getItem("cartItems") || "[]"
+                  );
 
-                localStorage.setItem("cartItems", JSON.stringify(updatedItems));
-              }}
-            >
-              Add to Cart
-            </Button>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+                  const updatedItems = [...existingItems, dealProductWithQty];
+                  localStorage.setItem(
+                    "cartItems",
+                    JSON.stringify(updatedItems)
+                  );
+
+                  setMessage("Item added to cart.");
+                }}
+              >
+                Add to Cart
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    </>
   );
 }

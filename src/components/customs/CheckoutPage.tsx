@@ -16,12 +16,13 @@ export function CheckoutPage() {
   const [agreed, setAgreed] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [countries, setCountries] = useState<string[]>([]);
 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     companyName: "",
-    country: "United States (US)",
+    country: "India",
     street: "",
     apartment: "",
     city: "",
@@ -32,7 +33,29 @@ export function CheckoutPage() {
     orderNotes: "",
   });
 
+  interface CountryData {
+    country: string;
+    cities: string[];
+  }
+
   useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch(
+          "https://countriesnow.space/api/v0.1/countries"
+        );
+        const result = await response.json();
+        const countryNames = result.data.map(
+          (item: CountryData) => item.country
+        );
+        setCountries(countryNames);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+
+    fetchCountries();
+
     const loginStatus = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loginStatus);
   }, []);
@@ -141,15 +164,19 @@ export function CheckoutPage() {
                 setFormData({ ...formData, country: value })
               }
             >
-              <SelectTrigger>
-                <SelectValue />
+              <SelectTrigger className="text-gray-800 font-semibold">
+                <SelectValue placeholder="Select country" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="United States (US)">
-                  United States (US)
-                </SelectItem>
-                <SelectItem value="India">India</SelectItem>
-                <SelectItem value="Canada">Canada</SelectItem>
+              <SelectContent className="max-h-60 overflow-y-auto z-50 bg-white shadow-lg border border-gray-200">
+                {countries.map((country) => (
+                  <SelectItem
+                    key={country}
+                    value={country}
+                    className="text-sm cursor-pointer hover:bg-gray-100 focus:bg-gray-100"
+                  >
+                    {country}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
