@@ -41,7 +41,7 @@ export function ProductList() {
       try {
         const allowedCategories = [
           "groceries",
-          "watches",
+          "womens-watches",
           "womens-dresses",
           "mens-shirts",
         ];
@@ -96,6 +96,7 @@ export function ProductList() {
           {message}
         </div>
       )}
+
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4 py-8 max-w-7xl mx-auto">
         {filteredProducts.length > 0 ? (
