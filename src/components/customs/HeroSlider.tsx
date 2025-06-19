@@ -189,8 +189,6 @@ export default function HeroSlider() {
               Frozen Foods
             </span>
           </div>
-
-          
         </div>
       </div>
     </>

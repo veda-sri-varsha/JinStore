@@ -32,6 +32,12 @@ export const TopBar = () => {
   const { getTotalQuantity } = useCart();
   const total = getTotalQuantity();
   const { searchTerm, setSearchTerm } = useSearch();
+  const [wishlistCount, setWishlistCount] = useState(0);
+
+  useEffect(() => {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    setWishlistCount(wishlist.length);
+  }, []);
 
   const handleSearch = () => {
     console.log("Search value:", searchTerm);
@@ -222,12 +228,16 @@ export const TopBar = () => {
                 </Link>
               )}
 
-              <button className="relative text-gray-600 hover:text-purple-600 cursor-pointer">
+              <Link
+                to="/wishlist"
+                className="relative text-gray-600 hover:text-purple-600 cursor-pointer"
+              >
                 <FaHeart size={20} />
                 <span className="absolute -top-2 left-4 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  0
+                  {wishlistCount}
                 </span>
-              </button>
+              </Link>
+
               <Link
                 to="/cart"
                 className="relative text-gray-600 hover:text-purple-600 cursor-pointer"

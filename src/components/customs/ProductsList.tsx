@@ -39,22 +39,35 @@ export function ProductList() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          "https://dummyjson.com/products/category/groceries"
-        );
-        const data = await response.json();
+        const allowedCategories = [
+          "groceries",
+          "watches",
+          "womens-dresses",
+          "mens-shirts",
+        ];
 
-        const transformed: deals[] = data.products.map((item: RawProduct) => ({
-          id: item.id.toString(),
-          title: item.title,
-          description: item.description,
-          price: item.price,
-          image: item.thumbnail,
-        }));
+        const allProducts: deals[] = [];
 
-        setProducts(transformed);
+        for (const category of allowedCategories) {
+          const res = await fetch(
+            `https://dummyjson.com/products/category/${category}`
+          );
+          const data = await res.json();
+
+          const transformed = data.products.map((item: RawProduct) => ({
+            id: item.id.toString(),
+            title: item.title,
+            description: item.description,
+            price: item.price,
+            image: item.thumbnail,
+          }));
+
+          allProducts.push(...transformed);
+        }
+
+        setProducts(allProducts);
       } catch (error) {
-        console.error("Error fetching product list:", error);
+        console.error("Error fetching products:", error);
       }
     };
 
@@ -165,7 +178,8 @@ export function ProductList() {
           ))
         ) : (
           <div className="text-center col-span-full text-gray-600 text-lg py-8">
-            No products found for "<span className="font-semibold">{searchTerm}</span>"
+            No products found for{" "}
+            <span className="font-semibold">{searchTerm}</span>
           </div>
         )}
       </div>
