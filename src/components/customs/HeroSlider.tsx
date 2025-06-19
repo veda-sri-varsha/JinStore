@@ -4,11 +4,10 @@ import img1 from "../../assets/Hero-1.jpg";
 import img2 from "../../assets/Hero-2.jpg";
 import img3 from "../../assets/Hero-3.jpg";
 import FrVeg from "../../assets/Fruits-1.png";
-import Fish from "../../assets/Fish.png";
-import sp from "../../assets/sp.png";
-import Frood from "../../assets/Frood.png";
-import Bread from "../../assets/Bread.png";
-import packet from "../../assets/packet.png";
+import Dresses from "../../assets/dress.png";
+import Shirts from "../../assets/Shrits.png";
+import Watches from "../../assets/watches.png";
+
 
 const slides = [
   {
@@ -43,6 +42,14 @@ const slides = [
   },
 ];
 
+const categories = [
+  { image: FrVeg, name: "Groceries", backend: "groceries" },
+  { image: Dresses, name: "Womens-Dress", backend: "womens-dresses" },
+  { image: Shirts, name: "Mens-Shirts", backend: "mens-shirts" },
+  { image: Watches, name: "Watches", backend: "womens-watches" },
+  
+];
+
 export default function HeroSlider() {
   const [current, setCurrent] = useState<number>(0);
   const length = slides.length;
@@ -53,6 +60,12 @@ export default function HeroSlider() {
     }, 3000);
     return () => clearInterval(interval);
   }, [length]);
+
+  const handleCategoryClick = (backendCategory: string) => {
+    window.dispatchEvent(
+      new CustomEvent("categorySelect", { detail: backendCategory })
+    );
+  };
 
   return (
     <>
@@ -70,7 +83,7 @@ export default function HeroSlider() {
               className="w-full h-full object-cover"
             />
 
-            <div className="absolute top-1/4 left-8 max-w-md  text-black p-6 ">
+            <div className="absolute top-1/4 left-8 max-w-md text-black p-6">
               <div className="inline-block mb-2 px-3 py-1 rounded text-sm font-bold text-green-800 bg-gradient-to-r from-green-400/50 via-green-200/10 to-white">
                 {slide.label}
               </div>
@@ -98,6 +111,7 @@ export default function HeroSlider() {
           </div>
         ))}
       </div>
+
       <div className="w-full mt-4 flex justify-center gap-2">
         {slides.map((_, idx) => (
           <button
@@ -110,85 +124,27 @@ export default function HeroSlider() {
           />
         ))}
       </div>
+
       <div className="w-full bg-white py-6 px-4">
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-6 sm:gap-4">
-          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
-                src={FrVeg}
-                alt="Fruits & Vegetables"
-                className="object-contain w-full h-full"
-              />
+          {categories.map((category) => (
+            <div
+              key={category.name}
+              className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105 hover:bg-gray-50 rounded-xl cursor-pointer"
+              onClick={() => handleCategoryClick(category.backend)}
+            >
+              <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="object-contain w-full h-full"
+                />
+              </div>
+              <span className="text-xs font-medium text-gray-800">
+                {category.name}
+              </span>
             </div>
-            <span className="text-xs font-medium text-gray-800">
-              Fruits & Vegetables
-            </span>
-          </div>
-
-         
-
-          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
-                src={sp}
-                alt="Beverages"
-                className="object-contain w-full h-full"
-              />
-            </div>
-            <span className="text-xs font-medium text-gray-800">Beverages</span>
-          </div>
-
-          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
-                src={Fish}
-                alt="Meats & Seafood"
-                className="object-contain w-full h-full"
-              />
-            </div>
-            <span className="text-xs font-medium text-gray-800">
-              Meats & Seafood
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
-                src={packet}
-                alt="Biscuits & Snacks"
-                className="object-contain w-full h-full"
-              />
-            </div>
-            <span className="text-xs font-medium text-gray-800">
-              Biscuits & Snacks
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
-                src={Bread}
-                alt="Bread & Bakery"
-                className="object-contain w-full h-full"
-              />
-            </div>
-            <span className="text-xs font-medium text-gray-800">
-              Bread & Bakery
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105  hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
-                src={Frood}
-                alt="Frozen Foods"
-                className="object-contain w-full h-full"
-              />
-            </div>
-            <span className="text-xs font-medium text-gray-800">
-              Frozen Foods
-            </span>
-          </div>
+          ))}
         </div>
       </div>
     </>

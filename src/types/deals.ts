@@ -4,4 +4,5 @@ export interface deals {
   image: string;
   price: number;
   description: string;
+  category: string;
 }
