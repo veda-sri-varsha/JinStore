@@ -25,7 +25,6 @@ export const TopBar = () => {
     seconds: 7,
   });
 
-  const [input, setInput] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("User");
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -40,7 +39,7 @@ export const TopBar = () => {
   }, []);
 
   const handleSearch = () => {
-    console.log("Search value:", searchTerm);
+    console.log("Search triggered:", searchTerm);
   };
 
   useEffect(() => {
@@ -60,7 +59,6 @@ export const TopBar = () => {
 
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     const storedUsername = localStorage.getItem("username") || "User";
-
     setIsLoggedIn(loggedIn);
     setUsername(storedUsername);
 
@@ -115,7 +113,7 @@ export const TopBar = () => {
               </Button>
 
               <div
-                className={`${
+                className={`$ {
                   showMenu ? "flex" : "hidden"
                 } flex-col sm:flex sm:flex-row sm:items-center gap-4`}
               >
@@ -131,7 +129,7 @@ export const TopBar = () => {
               </div>
 
               <span className="text-sm whitespace-nowrap ml-4">
-                We deliver every day from{" "}
+                We deliver every day from {" "}
                 <span className="text-orange-500 font-bold">7:00 to 23:00</span>
               </span>
             </div>
@@ -192,6 +190,7 @@ export const TopBar = () => {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   placeholder="Search for products, categories or brands..."
                   className="w-full px-4 py-2 pr-12 rounded-md bg-gray-100 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all"
                 />
@@ -254,8 +253,9 @@ export const TopBar = () => {
             <div className="relative">
               <Input
                 type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 placeholder="Search products..."
                 className="w-full px-4 py-2 pr-12 rounded-lg bg-gray-100"
               />
