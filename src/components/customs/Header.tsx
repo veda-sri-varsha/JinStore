@@ -11,7 +11,7 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { label: "Home", path: "/" },
-  { label: "Shop", path: "/shop" },
+  { label: "Shop", path: "/filters" },
   { label: "Fruits & Vegetables", path: "/fruits-vegetables" },
   { label: "Beverages", path: "/beverages" },
   { label: "Contact", path: "/contact" },
