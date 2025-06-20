@@ -10,7 +10,7 @@ interface WishlistProduct {
   description: string;
 }
 
-export  function Wishlist() {
+export function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState<WishlistProduct[]>([]);
 
   useEffect(() => {
@@ -43,10 +43,14 @@ export  function Wishlist() {
               />
               <h2 className="text-lg font-semibold">{item.title}</h2>
               <p className="text-green-700 font-bold">₹{item.price}</p>
-              <p className="text-sm text-gray-600">{item.description.slice(0, 60)}...</p>
+              <p className="text-sm text-gray-600">
+                {item.description.slice(0, 60)}...
+              </p>
               <div className="mt-3 flex justify-between">
                 <Link to={`/product/${item.id}`}>
-                  <Button size="sm" variant="outline">View</Button>
+                  <Button size="sm" variant="outline">
+                    View
+                  </Button>
                 </Link>
                 <Button
                   size="sm"

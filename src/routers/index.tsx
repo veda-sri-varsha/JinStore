@@ -7,8 +7,9 @@ import { Cart } from "../components/customs/Cart";
 import { Contact } from "../components/customs/Contact";
 import { CheckoutPage } from "../components/customs/CheckoutPage";
 import ProductDetails from "../components/customs/ProductDetails";
-import  WishlistPage from "../pages/WishlistPage";
+import  {Wishlist} from "../components/customs/Wishlist";
 import FilterProductPage from "../pages/FilterProductPage";
+import {AboutUs} from "../components/customs/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -20,8 +21,9 @@ export const router = createBrowserRouter([
       { path: "register", element: <RegisterPage /> },
       { path: "cart", element: <Cart /> },
       { path: "Contact", element: <Contact /> },
+      { path: "about", element: <AboutUs /> },
       { path: "checkout", element: <CheckoutPage /> },
-      { path: "wishlist", element: <WishlistPage /> },
+      { path: "wishlist", element: <Wishlist /> },
       {path:"filters",element:<FilterProductPage />},
       { path: "/product/:id", element: <ProductDetails /> },
       

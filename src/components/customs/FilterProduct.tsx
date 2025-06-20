@@ -12,7 +12,7 @@ export default function FilterProduct() {
     { label: "Men's Shirts", value: "mens-shirts" },
   ];
 
-  // Emit categorySelect event to trigger ProductList filtering
+  // Emit categorySelect event to filter products
   useEffect(() => {
     const event = new CustomEvent("categorySelect", {
       detail: selectedCategory,
@@ -21,24 +21,28 @@ export default function FilterProduct() {
   }, [selectedCategory]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-6 text-center">
+    <div className="max-w-[1200px] mx-auto px-4 py-6">
+      {/* Title */}
+      <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">
         Grocery store with different treasures
       </h1>
 
+      {/* Sidebar + Products Layout */}
       <div className="flex flex-col md:flex-row gap-6">
         {/* Sidebar */}
-        <aside className="w-full md:w-64 border rounded-lg p-4 shadow">
-          <h2 className="font-semibold text-lg mb-4">Filter by Category</h2>
-          <ul className="space-y-2">
+        <aside className="w-full md:w-[230px] bg-white border border-gray-200 rounded-md shadow-sm p-4 text-sm">
+          <h2 className="font-semibold text-gray-800 text-base mb-3">
+            Filter by Category
+          </h2>
+          <ul className="space-y-1">
             {categories.map((cat) => (
               <li key={cat.label}>
                 <button
                   onClick={() => setSelectedCategory(cat.value)}
-                  className={`w-full text-left px-3 py-2 rounded ${
+                  className={`w-full text-left px-3 py-[6px] rounded transition duration-200 ${
                     selectedCategory === cat.value
                       ? "bg-purple-100 text-purple-700 font-semibold"
-                      : "hover:bg-gray-100"
+                      : "hover:bg-gray-100 text-gray-700"
                   }`}
                 >
                   {cat.label}
@@ -49,7 +53,7 @@ export default function FilterProduct() {
         </aside>
 
         {/* Products Section */}
-        <main className="flex-1">
+        <main className="flex-1 bg-white rounded-md p-4 shadow-sm">
           <ProductList />
         </main>
       </div>

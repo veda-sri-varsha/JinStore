@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import {  useNavigate } from "react-router";
 import { TopBar } from "./TopBar";
 import { FaChevronDown } from "react-icons/fa";
 import { Menu, X } from "lucide-react";
@@ -12,13 +12,34 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { label: "Home", path: "/" },
   { label: "Shop", path: "/filters" },
-  { label: "Fruits & Vegetables", path: "/fruits-vegetables" },
-  { label: "Beverages", path: "/beverages" },
+  { label: "Fruits & Vegetables", path: "/filters" },
+  { label: "Dresses", path: "/filters" },
   { label: "Contact", path: "/contact" },
 ];
 
+const categoryPaths: Record<string, string> = {
+  Shop: "groceries",
+  "Fruits & Vegetables": "groceries",
+  Dresses: "womens-dresses",
+};
+
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleMenuClick = (label: string, path: string) => {
+    const backendCategory = categoryPaths[label];
+
+    if (backendCategory) {
+      window.dispatchEvent(
+        new CustomEvent("categorySelect", { detail: backendCategory })
+      );
+      navigate("/filters");
+    } else {
+      navigate(path);
+    }
+  };
+
   return (
     <>
       <TopBar />
@@ -34,16 +55,16 @@ export default function Header() {
 
             <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-black">
               {menuItems.map(({ label, path }) => (
-                <Link
-                  to={path}
+                <div
                   key={label}
+                  onClick={() => handleMenuClick(label, path)}
                   className="flex items-center gap-1 cursor-pointer hover:text-[var(--color-primary)]"
                 >
                   <span>{label}</span>
                   {(label === "Home" || label === "Shop") && (
                     <FaChevronDown size={14} className="mt-[1px]" />
                   )}
-                </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -56,7 +77,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-      
     </>
   );
 }
