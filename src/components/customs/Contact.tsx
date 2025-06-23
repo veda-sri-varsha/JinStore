@@ -35,13 +35,15 @@ export function Contact() {
             Our Offices
           </h2>
           <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-            Reach out to one of our contact offices for faster service. Our
-            team is always ready to help and support you.
+            Reach out to one of our contact offices for faster service. Our team
+            is always ready to help and support you.
           </p>
 
           <div className="space-y-6">
             <div className="border rounded-xl p-5 bg-gray-50 shadow-sm hover:shadow-md transition">
-              <p className="font-semibold text-gray-800">United States Office</p>
+              <p className="font-semibold text-gray-800">
+                United States Office
+              </p>
               <p className="text-sm text-gray-500">
                 205 Middle Road, 3rd Floor, New York
               </p>
@@ -79,69 +81,68 @@ export function Contact() {
         </div>
 
         <form className="space-y-8">
-  <p className="text-sm text-gray-500 mb-6">
-    Send us a message, and we will get back to you as soon as possible.
-  </p>
+          <p className="text-sm text-gray-500 mb-6">
+            Send us a message, and we will get back to you as soon as possible.
+          </p>
 
-  <div className="flex flex-col md:flex-row gap-6">
-    <div className="flex-1">
-      <Label htmlFor="name" className="mb-2 text-sm text-black">
-        Your name <span className="text-red-500">*</span>
-      </Label>
-      <Input
-        id="name"
-        type="text"
-        placeholder="Enter your name"
-        required
-        className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-      />
-    </div>
-    <div className="flex-1">
-      <Label htmlFor="email" className="mb-2 text-sm text-black">
-        Your email <span className="text-red-500">*</span>
-      </Label>
-      <Input
-        id="email"
-        type="email"
-        placeholder="Enter your email"
-        required
-        className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-      />
-    </div>
-  </div>
+          <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex-1">
+              <Label htmlFor="name" className="mb-2 text-sm text-black">
+                Your name <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Enter your name"
+                required
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+            <div className="flex-1">
+              <Label htmlFor="email" className="mb-2 text-sm text-black">
+                Your email <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                required
+                className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+          </div>
 
-  <div>
-    <Label htmlFor="subject" className="mb-2 text-sm text-black">
-      Subject <span className="text-red-500">*</span>
-    </Label>
-    <Input
-      id="subject"
-      type="text"
-      placeholder="Subject of your message"
-      required
-      className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-    />
-  </div>
+          <div>
+            <Label htmlFor="subject" className="mb-2 text-sm text-black">
+              Subject <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="subject"
+              type="text"
+              placeholder="Subject of your message"
+              required
+              className="w-full p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
 
-  <div>
-    <Label htmlFor="message" className="mb-2 text-sm text-black">
-      Your message
-    </Label>
-    <textarea
-      id="message"
-      className="w-full h-32 p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-      placeholder="Type your message..."
-    />
-  </div>
+          <div>
+            <Label htmlFor="message" className="mb-2 text-sm text-black">
+              Your message
+            </Label>
+            <textarea
+              id="message"
+              className="w-full h-32 p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              placeholder="Type your message..."
+            />
+          </div>
 
-  <Button
-    type="submit"
-    className="w-full bg-primary hover:bg-violet-900 text-white font-semibold p-3"
-  >
-    Send Message
-  </Button>
-</form>
-
+          <Button
+            type="submit"
+            className="w-full bg-primary hover:bg-violet-900 text-white font-semibold p-3"
+          >
+            Send Message
+          </Button>
+        </form>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-20 border-t pt-12">

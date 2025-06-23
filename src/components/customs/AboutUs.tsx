@@ -1,6 +1,6 @@
 export function AboutUs() {
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-2xl mx-auto p-6 bg-purple-200 rounded-lg shadow-md">
       <h1 className="text-3xl font-bold mb-4 text-gray-800">About Us</h1>
       <h2 className="text-xl font-semibold mb-2 text-indigo-600">Welcome to Our Website - JinStore</h2>
       <p className="mb-3 text-gray-700">
