@@ -10,10 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { useNavigate } from "react-router"; 
+import { useNavigate } from "react-router";
 
 export function CheckoutPage() {
-  const { cart, clearCart } = useCart(); 
+  const { cart, clearCart } = useCart();
   const [agreed, setAgreed] = useState<boolean>(false);
   const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -284,7 +284,6 @@ export function CheckoutPage() {
         </div>
       </div>
 
-      {/* Right Side - Order Summary */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-4">
         <h2 className="text-xl font-semibold">Your Order</h2>
 
@@ -316,7 +315,12 @@ export function CheckoutPage() {
 
         <div className="pt-4 space-y-2 text-sm">
           <Label>
-            <input type="radio" name="payment" defaultChecked className="mr-2" />
+            <input
+              type="radio"
+              name="payment"
+              defaultChecked
+              className="mr-2"
+            />
             Direct Bank Transfer
           </Label>
           <Label>

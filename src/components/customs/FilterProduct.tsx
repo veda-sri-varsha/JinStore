@@ -12,7 +12,6 @@ export default function FilterProduct() {
     { label: "Men's Shirts", value: "mens-shirts" },
   ];
 
-  // Emit categorySelect event to filter products
   useEffect(() => {
     const event = new CustomEvent("categorySelect", {
       detail: selectedCategory,
@@ -22,14 +21,11 @@ export default function FilterProduct() {
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 py-6">
-      {/* Title */}
       <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">
         Grocery store with different treasures
       </h1>
 
-      {/* Sidebar + Products Layout */}
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Sidebar */}
         <aside className="w-full md:w-[230px] bg-white border border-gray-200 rounded-md shadow-sm p-4 text-sm">
           <h2 className="font-semibold text-gray-800 text-base mb-3">
             Filter by Category
@@ -52,7 +48,6 @@ export default function FilterProduct() {
           </ul>
         </aside>
 
-        {/* Products Section */}
         <main className="flex-1 bg-white rounded-md p-4 shadow-sm">
           <ProductList />
         </main>

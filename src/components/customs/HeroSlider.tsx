@@ -12,34 +12,44 @@ import Watches from "../../assets/watches.png";
 const slides = [
   {
     image: img1,
-    label: "Weekend Discount",
-    heading: "Shopping with us for\nbetter quality and the best price",
+    label: "New Arrival",
+    heading: "Trendy Women's Dresses\nfor Every Occasion",
     description:
-      "We have prepared special discounts for you on grocery products.\nDon’t miss these opportunities...",
-    price: " ₹21.67",
-    oldPrice: " ₹26.87",
+      "Explore the latest styles in women's fashion.\nElegant, comfortable, and affordable.",
+    price: " ₹799",
+    oldPrice: " ₹1299",
     buttonText: "Shop Now",
   },
   {
     image: img2,
-    label: "Weekend Discount",
-    heading: "Get the best quality products at the lowest prices",
+    label: "Luxury Deals",
+    heading: "Stylish Watches\nat Exclusive Prices",
     description:
-      "Get organic and healthy veggies at a much lower price. Limited period offer.",
-    price: " ₹9.99",
-    oldPrice: " ₹15.00",
+      "Premium collection of watches for all tastes.\nLimited-time luxury discounts available.",
+    price: " ₹1499",
+    oldPrice: " ₹2999",
     buttonText: "Explore",
   },
   {
     image: img3,
-    label: "Weekend Discount",
-    heading: "Up to 70% off\non kitchen essentials",
+    label: "Style Upgrade",
+    heading: "Men’s Shirts Collection\nFlat 40% Off",
     description:
-      "Upgrade your kitchen with branded tools & appliances. Don’t miss out.",
-    price: " ₹39.99",
-    oldPrice: " ₹89.99",
+      "From casual to formal—refresh your wardrobe with high-quality men’s shirts.",
+    price: " ₹599",
+    oldPrice: " ₹999",
     buttonText: "Grab Deal",
   },
+  // {
+  //   image: img4,
+  //   label: "Daily Essentials",
+  //   heading: "Fresh Groceries\nDelivered to Your Door",
+  //   description:
+  //     "Shop farm-fresh vegetables, fruits, and pantry items.\nQuality guaranteed at best prices.",
+  //   price: " ₹299",
+  //   oldPrice: " ₹349",
+  //   buttonText: "Order Now",
+  // },
 ];
 
 const categories = [
