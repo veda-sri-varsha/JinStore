@@ -13,14 +13,12 @@ const menuItems: MenuItem[] = [
   { label: "Home", path: "/" },
   { label: "Shop", path: "/filters" },
   { label: "Fruits & Vegetables", path: "/filters" },
-  { label: "Dresses", path: "/filters" },
   { label: "Contact", path: "/contact" },
 ];
 
 const categoryPaths: Record<string, string> = {
   Shop: "groceries",
   "Fruits & Vegetables": "groceries",
-  Dresses: "womens-dresses",
 };
 
 export default function Header() {

@@ -1,23 +1,67 @@
 import { useEffect, useState } from "react";
 import { ProductList } from "../customs/ProductsList";
+import { ref, onValue, off } from "firebase/database";
+import { rtdb } from "../../config/firebase";
+
+interface CategoryOption {
+  label: string;
+  value: string | null;
+}
 
 export default function FilterProduct() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  const categories = [
+  const [categories, setCategories] = useState<CategoryOption[]>([
     { label: "All", value: null },
-    { label: "Groceries", value: "groceries" },
-    { label: "Women's Watches", value: "womens-watches" },
-    { label: "Women's Dresses", value: "womens-dresses" },
-    { label: "Men's Shirts", value: "mens-shirts" },
-  ];
+  ]);
 
   useEffect(() => {
-    const event = new CustomEvent("categorySelect", {
-      detail: selectedCategory,
+    const productsRef = ref(rtdb, "products/fruits");
+    const unsubscribe = onValue(productsRef, (snapshot) => {
+      const data = snapshot.val();
+      const categorySet = new Set<string>();
+
+      if (data) {
+        for (const groupKey in data) {
+          const productArray = data[groupKey];
+          if (Array.isArray(productArray)) {
+            for (const product of productArray) {
+              if (product?.category) {
+                categorySet.add(product.category.trim().toLowerCase());
+              }
+            }
+          }
+        }
+      }
+
+      const generatedCategories: CategoryOption[] = Array.from(categorySet).map((cat) => ({
+        label: formatLabel(cat),
+        value: cat,
+      }));
+
+      setCategories([{ label: "All", value: null }, ...generatedCategories]);
     });
-    window.dispatchEvent(event);
-  }, [selectedCategory]);
+
+    return () => off(productsRef, "value", unsubscribe);
+  }, []);
+
+  const formatLabel = (text: string) => {
+    switch (text.toLowerCase()) {
+      case "citrus":
+        return "Citrus Fruits";
+      case "berry":
+        return "Fresh Berries";
+      case "tropical":
+        return "Tropical Fruits";
+      case "melon":
+        return "Fresh Melons";
+      case "juice":
+        return "Fresh Juices";
+      case "stone fruit":
+        return "Stone Fruits";
+      default:
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+  };
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 py-6">
@@ -49,7 +93,7 @@ export default function FilterProduct() {
         </aside>
 
         <main className="flex-1 bg-white rounded-md p-4 shadow-sm">
-          <ProductList />
+          <ProductList selectedCategory={selectedCategory} />
         </main>
       </div>
     </div>

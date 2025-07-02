@@ -211,10 +211,10 @@ export function Login() {
 
           <Button
             type="submit"
-            className={`w-full text-white font-medium py-2 rounded-md transition ${
+            className={`w-full text-white font-medium py-2 cursor-pointer rounded-md transition  ${
               username && password
                 ? "bg-primary hover:bg-violet-400"
-                : "bg-violet-900 cursor-not-allowed"
+                : "bg-violet-900"
             }`}
             disabled={!username || !password}
           >
@@ -230,9 +230,9 @@ export function Login() {
           <Button
             type="button"
             onClick={handleGoogleSignIn}
-            className="w-full bg-primary hover:bg-violet-900 text-white font-medium py-2 rounded-md"
+            className="w-full bg-primary hover:bg-violet-900 text-white font-medium py-2 rounded-md cursor-pointer"
           >
-            Sign in with Google
+            Login with Google
           </Button>
         </form>
       </div>

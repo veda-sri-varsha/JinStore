@@ -1,26 +1,26 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "../hooks/useCart";
+import { ref, onValue } from "firebase/database";
+import { rtdb } from "../../config/firebase";
 
-export interface RawProduct {
-  id: number;
-  title: string;
+interface FirebaseProduct {
+  id: string;
+  name: string;
   description: string;
   price: number;
-  discountPercentage: number;
-  thumbnail: string;
-  images: string[];
+  imageUrl: string;
+  category: string;
   rating: number;
   stock: number;
-  brand: string;
-  category: string;
+  tags?: string[];
 }
 
 export default function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState<RawProduct | null>(null);
+  const [product, setProduct] = useState<FirebaseProduct | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [wishlist, setWishlist] = useState<string[]>([]);
 
@@ -31,76 +31,80 @@ export default function ProductDetails() {
 
   const toggleWishlist = (productId: string) => {
     const updated = wishlist.includes(productId)
-      ? wishlist.filter((id) => id !== productId)
+      ? wishlist.filter((pid) => pid !== productId)
       : [...wishlist, productId];
 
     setWishlist(updated);
     localStorage.setItem("wishlist", JSON.stringify(updated));
   };
 
-  const isInWishlist = wishlist.includes(product?.id.toString() || "");
+  const isInWishlist = wishlist.includes(id || "");
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const res = await fetch(`https://dummyjson.com/products/${id}`);
-      const data = await res.json();
-      setProduct(data);
-    };
-    fetchProduct();
+    if (!id) return;
+
+    const productsRef = ref(rtdb, "products/fruits");
+
+    onValue(productsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+
+      for (const groupKey in data) {
+        const productArray = data[groupKey];
+        if (Array.isArray(productArray)) {
+          for (const item of productArray) {
+            const itemId = item.id?.toString() || `${groupKey}_${item.name}`;
+            if (itemId === id) {
+              setProduct({
+                id: itemId,
+                name: item.name,
+                description: item.description || "",
+                price: parseFloat(item.price),
+                imageUrl: item.imageUrl || "/placeholder-image.jpg",
+                category: item.category || "",
+                rating: item.rating || 0,
+                stock: item.stock || 0,
+                tags: item.tags || [],
+              });
+              return;
+            }
+          }
+        }
+      }
+    });
   }, [id]);
 
   if (!product)
     return <div className="text-center py-10">Loading product...</div>;
 
-  const discountedPrice = (
-    product.price *
-    (1 - product.discountPercentage / 100)
-  ).toFixed(2);
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+        {/* Image Section */}
         <div>
           <img
-            src={product.thumbnail}
-            alt={product.title}
+            src={product.imageUrl}
+            alt={product.name}
             className="w-full h-96 object-contain border rounded-lg shadow"
           />
-          <div className="flex gap-2 mt-4">
-            {product.images.slice(0, 4).map((img, i) => (
-              <img
-                key={i}
-                src={img}
-                alt="variant"
-                className="h-16 w-16 object-cover border rounded hover:scale-105 transition"
-              />
-            ))}
-          </div>
         </div>
 
-        {/* Right: Details */}
+        {/* Details Section */}
         <div className="space-y-4">
-          <h1 className="text-2xl font-bold">{product.title}</h1>
+          <h1 className="text-2xl font-bold">{product.name}</h1>
           <div className="text-yellow-500 text-sm">
             ⭐ {product.rating} | {product.stock} in stock
           </div>
 
-          <div className="flex items-center space-x-4">
-            <span className="text-2xl font-bold text-green-700">
-              ₹{discountedPrice}
-            </span>
-            <span className="line-through text-gray-500 text-md">
-              ₹{product.price}
-            </span>
-            <span className="text-sm bg-red-100 text-red-700 px-2 py-1 rounded">
-              {product.discountPercentage}% off
-            </span>
+          <div className="text-2xl font-bold text-green-700">
+            ₹{product.price.toFixed(2)}
           </div>
 
           <div className="bg-orange-100 text-orange-800 px-4 py-2 rounded text-sm font-medium w-fit">
             🎉 Special Offer! Limited Time Only
           </div>
 
+          {/* Quantity Selector */}
           <div className="space-y-2">
             <label className="font-medium">Quantity</label>
             <div className="flex items-center space-x-3">
@@ -129,11 +133,13 @@ export default function ProductDetails() {
               className="w-40 bg-green-600 font-bold hover:bg-green-700"
               onClick={() => {
                 const dealProduct = {
-                  id: product.id.toString(),
-                  title: product.title,
-                  image: product.thumbnail,
-                  price: parseFloat(discountedPrice),
+                  id: product.id,
+                  title: product.name,
+                  image: product.imageUrl,
+                  price: product.price,
                   description: product.description,
+                  category: product.category,
+                  quantity,
                 };
                 addToCart(dealProduct);
                 const existingItems = JSON.parse(
@@ -201,12 +207,13 @@ export default function ProductDetails() {
               Buy Now
             </Button>
           </div>
+
           <Button
             variant="ghost"
             className={`w-40 border ${
               isInWishlist ? "border-pink-500 text-pink-600" : "text-gray-500"
             }`}
-            onClick={() => toggleWishlist(product.id.toString())}
+            onClick={() => toggleWishlist(product.id)}
           >
             {isInWishlist ? "❤️ Wishlisted" : "🤍 Add to Wishlist"}
           </Button>

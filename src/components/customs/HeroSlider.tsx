@@ -3,61 +3,55 @@ import { Button } from "../ui/button";
 import img1 from "../../assets/Hero-1.jpg";
 import img2 from "../../assets/Hero-2.jpg";
 import img3 from "../../assets/Hero-3.jpg";
-import FrVeg from "../../assets/Fruits-1.png";
-import Dresses from "../../assets/dress.png";
-import Shirts from "../../assets/Shrits.png";
-import Watches from "../../assets/watches.png";
+import CitrusIcon from "../../assets/CitrusIcon.png";
+import BerryIcon from "../../assets/Berry.png";
+import TropicalIcon from "../../assets/Tropical.png";
+import StoneFruitIcon from "../../assets/StoneFruit.png";
+import MelonIcon from "../../assets/Melon.png";
+import JuiceIcon from "../../assets/Juice.png";
 
 
 const slides = [
   {
-    image: img1,
-    label: "New Arrival",
-    heading: "Trendy Women's Dresses\nfor Every Occasion",
-    description:
-      "Explore the latest styles in women's fashion.\nElegant, comfortable, and affordable.",
-    price: " ₹799",
-    oldPrice: " ₹1299",
-    buttonText: "Shop Now",
-  },
-  {
-    image: img2,
-    label: "Luxury Deals",
-    heading: "Stylish Watches\nat Exclusive Prices",
-    description:
-      "Premium collection of watches for all tastes.\nLimited-time luxury discounts available.",
-    price: " ₹1499",
-    oldPrice: " ₹2999",
-    buttonText: "Explore",
-  },
-  {
-    image: img3,
-    label: "Style Upgrade",
-    heading: "Men’s Shirts Collection\nFlat 40% Off",
-    description:
-      "From casual to formal—refresh your wardrobe with high-quality men’s shirts.",
-    price: " ₹599",
-    oldPrice: " ₹999",
-    buttonText: "Grab Deal",
-  },
-  // {
-  //   image: img4,
-  //   label: "Daily Essentials",
-  //   heading: "Fresh Groceries\nDelivered to Your Door",
-  //   description:
-  //     "Shop farm-fresh vegetables, fruits, and pantry items.\nQuality guaranteed at best prices.",
-  //   price: " ₹299",
-  //   oldPrice: " ₹349",
-  //   buttonText: "Order Now",
-  // },
+  image: img1,
+  label: "Fresh & Featured",
+  heading: "Premium Citrus Fruits\nfor Healthy Living",
+  description:
+    "Discover our collection of fresh oranges, lemons, and grapefruits.\nRich in Vitamin C and bursting with natural flavor.",
+  price: "₹4.82",
+  oldPrice: "₹6.50",
+  buttonText: "Shop Fresh",
+},
+{
+  image: img2,
+  label: "Berry Special",
+  heading: "Antioxidant-Rich Berries\nat Amazing Prices",
+  description:
+    "Premium strawberries, blueberries, and more exotic berries.\nPacked with nutrients and naturally sweet.",
+  price: "₹4.05",
+  oldPrice: "₹5.99",
+  buttonText: "Pick Berries",
+},
+{
+  image: img3,
+  label: "Tropical Paradise",
+  heading: "Exotic Tropical Fruits\nFlat 30% Off",
+  description:
+    "From sweet pineapples to creamy mangoes—bring tropical flavors to your table.",
+  price: "₹4.55",
+  oldPrice: "₹6.50",
+  buttonText: "Go Tropical",
+},
+
 ];
 
 const categories = [
-  { image: FrVeg, name: "Groceries", backend: "groceries" },
-  { image: Dresses, name: "Womens-Dress", backend: "womens-dresses" },
-  { image: Shirts, name: "Mens-Shirts", backend: "mens-shirts" },
-  { image: Watches, name: "Watches", backend: "womens-watches" },
-  
+  { image: CitrusIcon, name: "Citrus Fruits", backend: "citrus", description: "Oranges, Lemons, Limes" },
+  { image: BerryIcon, name: "Fresh Berries", backend: "berry", description: "Strawberries, Blueberries" },
+  { image: TropicalIcon, name: "Tropical Fruits", backend: "tropical", description: "Pineapple, Mango, Papaya" },
+  { image: StoneFruitIcon, name: "Stone Fruits", backend: "stone fruit", description: "Peaches, Plums, Cherries" },
+  { image: MelonIcon, name: "Fresh Melons", backend: "melon", description: "Watermelon, Cantaloupe" },
+  { image: JuiceIcon, name: "Fresh Juices", backend: "juice", description: "100% Natural Juices" },
 ];
 
 export default function HeroSlider() {
@@ -107,7 +101,10 @@ export default function HeroSlider() {
               </p>
 
               <div className="flex items-center mt-4 gap-4">
-                <Button className="bg-primary hover:bg-violet-950 text-white w-32 h-10 text-sm font-semibold rounded">
+                <Button
+                  className="bg-primary hover:bg-violet-950 text-white w-32 h-10 text-sm font-semibold rounded cursor-pointer transition-colors"
+                  onClick={() => window.location.href = "/filters"}
+                >
                   {slide.buttonText}
                 </Button>
                 <div className="text-red-600 text-lg font-bold">
