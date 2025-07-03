@@ -110,7 +110,7 @@ export function ProductList({ selectedCategory }: ProductListProps) {
             <span className="text-xs text-gray-400">{product.brand}</span>
           </div>
           <Button
-            className="mt-3 w-full"
+            className="mt-3 w-full cursor-pointer"
             disabled={product.stock <= 0}
             onClick={() => addToCart({ ...product, quantity: 1 })}
           >
