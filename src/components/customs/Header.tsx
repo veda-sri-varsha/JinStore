@@ -1,6 +1,6 @@
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { TopBar } from "./TopBar";
-import { FaChevronDown } from "react-icons/fa";
+// import { FaChevronDown } from "react-icons/fa";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -59,20 +59,23 @@ export default function Header() {
                   className="flex items-center gap-1 cursor-pointer hover:text-[var(--color-primary)]"
                 >
                   <span>{label}</span>
-                  {(label === "Home" || label === "Shop") && (
+                  {/* {(label === "Home" || label === "Shop") && (
                     <FaChevronDown size={14} className="mt-[1px]" />
-                  )}
+                  )} */}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-4 text-sm font-medium text-gray-800">
-            <div className="flex items-center gap-1 cursor-pointer hover:text-[var(--color-primary)]">
-              <span>Trending Products</span>
-              <FaChevronDown size={14} className="mt-[1px]" />
+            <div className="hidden md:flex items-center space-x-4 text-sm font-medium text-gray-800">
+            <div
+              className="flex items-center gap-1 cursor-pointer hover:text-[var(--color-primary)]"
+              onClick={() => navigate("/orders")}
+            >
+              <span>Order Tracking</span>
+              {/* <FaChevronDown size={14} className="mt-[1px]" /> */}
             </div>
-          </div>
+            </div>
         </div>
       </div>
     </>

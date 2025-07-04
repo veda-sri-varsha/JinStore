@@ -5,7 +5,8 @@ import { useCart } from "../hooks/useCart";
 import { useSearch } from "../../context/SearchContext";
 import { Link } from "react-router";
 import { ref, onValue, off } from "firebase/database";
-import { rtdb } from "../../config/firebase";
+import { rtdb, auth } from "../../config/firebase";
+import { onAuthStateChanged, type User } from "firebase/auth";
 
 interface Product {
   id: string;
@@ -26,6 +27,9 @@ interface ProductListProps {
 export function ProductList({ selectedCategory }: ProductListProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [visibleCount, setVisibleCount] = useState(10);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [showLoginMessage, setShowLoginMessage] = useState(false);
+
   const { addToCart } = useCart();
   const { searchTerm } = useSearch();
 
@@ -65,6 +69,13 @@ export function ProductList({ selectedCategory }: ProductListProps) {
     return () => off(productsRef, "value", unsubscribe);
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
   const filteredProducts = products.filter((product) => {
     const matchesCategory =
       !selectedCategory ||
@@ -92,32 +103,51 @@ export function ProductList({ selectedCategory }: ProductListProps) {
   }, [visibleCount, filteredProducts.length]);
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {visibleProducts.map((product) => (
-        <Card key={product.id} className="p-4 shadow">
-          <Link to={`/product/${product.id}`}>
-            <img
-              src={product.image}
-              alt={product.title}
-              className="w-full h-40 object-cover rounded"
-              onError={(e) => ((e.target as HTMLImageElement).src = "/placeholder-image.jpg")}
-            />
-          </Link>
-          <h3 className="mt-2 font-semibold">{product.title}</h3>
-          <p className="text-sm text-gray-600">{product.description}</p>
-          <div className="mt-2 flex justify-between items-center">
-            <span className="font-bold text-green-600">₹{product.price.toFixed(2)}</span>
-            <span className="text-xs text-gray-400">{product.brand}</span>
-          </div>
-          <Button
-            className="mt-3 w-full cursor-pointer"
-            disabled={product.stock <= 0}
-            onClick={() => addToCart({ ...product, quantity: 1 })}
-          >
-            {product.stock <= 0 ? "Out of Stock" : "Add to Cart"}
-          </Button>
-        </Card>
-      ))}
-    </div>
+    <>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {visibleProducts.map((product) => (
+          <Card key={product.id} className="p-4 shadow relative">
+            <Link to={`/product/${product.id}`}>
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full h-40 object-cover rounded"
+                onError={(e) =>
+                  ((e.target as HTMLImageElement).src = "/placeholder-image.jpg")
+                }
+              />
+            </Link>
+            <h3 className="mt-2 font-semibold">{product.title}</h3>
+            <p className="text-sm text-gray-600">{product.description}</p>
+            <div className="mt-2 flex justify-between items-center">
+              <span className="font-bold text-green-600">
+                ₹{product.price.toFixed(2)}
+              </span>
+              <span className="text-xs text-gray-400">{product.brand}</span>
+            </div>
+            <Button
+              className="mt-3 w-full cursor-pointer"
+              disabled={product.stock <= 0}
+              onClick={() => {
+                if (!currentUser) {
+                  setShowLoginMessage(true);
+                  setTimeout(() => setShowLoginMessage(false), 2500);
+                  return;
+                }
+                addToCart({ ...product, quantity: 1 });
+              }}
+            >
+              {product.stock <= 0 ? "Out of Stock" : "Add to Cart"}
+            </Button>
+          </Card>
+        ))}
+      </div>
+
+      {showLoginMessage && (
+        <div className="fixed top-1/7 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-green-200 text-green-700 text-sm px-6 py-3 rounded-md shadow-lg z-50 transition-opacity duration-300">
+          Please login to add items to your cart.
+        </div>
+      )}
+    </>
   );
 }

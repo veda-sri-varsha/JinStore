@@ -12,37 +12,36 @@ import JuiceIcon from "../../assets/Juice.png";
 
 
 const slides = [
-  {
+{
   image: img1,
-  label: "Fresh & Featured",
-  heading: "Premium Citrus Fruits\nfor Healthy Living",
+  label: "JinStore Picks",
+  heading: "Fresh Citrus Fruits\nStraight from the Farm",
   description:
-    "Discover our collection of fresh oranges, lemons, and grapefruits.\nRich in Vitamin C and bursting with natural flavor.",
-  price: "₹4.82",
-  oldPrice: "₹6.50",
-  buttonText: "Shop Fresh",
+    "Enjoy naturally sweet oranges, tangy lemons, and juicy mosambis.\nHandpicked daily for maximum freshness and Vitamin C boost.",
+  price: "₹120/kg",
+  oldPrice: "₹160/kg",
+  buttonText: "Order Citrus",
 },
 {
   image: img2,
-  label: "Berry Special",
-  heading: "Antioxidant-Rich Berries\nat Amazing Prices",
+  label: "Berry Delight",
+  heading: "Juicy Berries\nfor Your Sweet Cravings",
   description:
-    "Premium strawberries, blueberries, and more exotic berries.\nPacked with nutrients and naturally sweet.",
-  price: "₹4.05",
-  oldPrice: "₹5.99",
-  buttonText: "Pick Berries",
+    "Stock up on antioxidant-rich strawberries, blueberries, and jamuns.\nPerfect for desserts, smoothies, or healthy snacking.",
+  price: "₹150",
+  oldPrice: "₹210",
+  buttonText: "Buy Berries",
 },
 {
   image: img3,
-  label: "Tropical Paradise",
-  heading: "Exotic Tropical Fruits\nFlat 30% Off",
+  label: "Tropical Treats",
+  heading: "Mangoes, Pineapples & More\nDelivered Fresh",
   description:
-    "From sweet pineapples to creamy mangoes—bring tropical flavors to your table.",
-  price: "₹4.55",
-  oldPrice: "₹6.50",
-  buttonText: "Go Tropical",
+    "Tropical fruits full of flavor and freshness.\nPerfectly ripe and delivered to your doorstep from trusted local farms.",
+  price: "₹99/kg",
+  oldPrice: "₹140/kg",
+  buttonText: "Explore Now",
 },
-
 ];
 
 const categories = [
