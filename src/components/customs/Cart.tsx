@@ -13,9 +13,9 @@ export function Cart() {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] px-4 py-8 text-center">
+<div className="flex flex-col items-center justify-center min-h-[80vh] px-2 sm:px-4 py-6 text-center">
       {cart.length === 0 ? (
-        <div className="flex flex-col items-center gap-6 max-w-md w-full">
+    <div className="flex flex-col items-center gap-6 max-w-md w-full">
           <svg
             width="160"
             height="161"
@@ -47,89 +47,79 @@ export function Cart() {
           <Button
             onClick={() => navigate("/")}
             variant="default"
-            className="bg-black hover:bg-black text-white cursor-pointer"
+        className="bg-black hover:bg-black text-white w-full sm:w-auto"
           >
             Return to shop
           </Button>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-6 max-w-3xl w-full">
-          <h2 className="text-2xl font-bold">Your Cart</h2>
+        <div className="flex flex-col items-center gap-6 w-full max-w-3xl">
+      <h2 className="text-xl sm:text-2xl font-bold">Your Cart</h2>
 
-          <ul className="w-full space-y-4 text-left">
-            {cart.map((item) => (
-              <li
-                key={item.id}
-                className="flex flex-col sm:flex-row gap-4 border p-4 rounded-lg shadow-sm bg-white"
-              >
-                <div className="flex-shrink-0">
-                  <img
-                    src={
-                      item.image && item.image.trim() !== ""
-                        ? item.image
-                        : "/placeholder.jpg"
-                    }
-                    alt={item.title}
-                    className="w-24 h-24 object-cover rounded-md border"
-                  />
+      <ul className="w-full space-y-4">
+        {cart.map((item) => (
+          <li
+            key={item.id}
+            className="flex flex-col sm:flex-row gap-4 border p-4 rounded-lg shadow-sm bg-white"
+          >
+            <div className="flex-shrink-0">
+              <img
+                src={item.image && item.image.trim() !== "" ? item.image : "/placeholder.jpg"}
+                alt={item.title}
+                className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-md border mx-auto sm:mx-0"
+              />
+            </div>
+
+            <div className="flex flex-col justify-between flex-grow w-full">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                <div>
+                  <h3 className="font-semibold text-base sm:text-lg">{item.title}</h3>
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    {item.description}
+                  </p>
                 </div>
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-red-600 hover:text-red-800 mt-2 sm:mt-0"
+                  title="Remove item"
+                  aria-label="Remove item"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
 
-                <div className="flex flex-col justify-between flex-grow">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold text-lg">{item.title}</h3>
-                      <p className="text-sm text-gray-600">
-                        {item.description}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="text-red-600 hover:text-red-800"
-                      title="Remove item"
-                      aria-label="Remove item"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-
-                  <div className="flex justify-between items-center mt-4">
-                    <div className="flex items-center gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => decreaseQty(item.id)}
-                      >
-                        <Minus size={16} />
-                      </Button>
-                      <span className="px-2">{item.quantity}</span>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => increaseQty(item.id)}
-                      >
-                        <Plus size={16} />
-                      </Button>
-                    </div>
-                    <span className="text-green-600 font-bold text-base">
-                      ₹{item.price * item.quantity}
-                    </span>
-                  </div>
+              <div className="flex flex-col sm:flex-row justify-between items-center mt-4 gap-3 sm:gap-0">
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="outline" onClick={() => decreaseQty(item.id)}>
+                    <Minus size={16} />
+                  </Button>
+                  <span className="px-2">{item.quantity}</span>
+                  <Button size="sm" variant="outline" onClick={() => increaseQty(item.id)}>
+                    <Plus size={16} />
+                  </Button>
                 </div>
-              </li>
-            ))}
-          </ul>
+                <span className="text-green-600 font-semibold text-base sm:text-lg">
+                  ₹{item.price * item.quantity}
+                </span>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
 
-          <div className="flex justify-between items-center w-full max-w-3xl pt-4 border-t mt-4">
-            <p className="text-lg font-semibold">Total: ₹{totalPrice}</p>
-            <Button
-              onClick={() => navigate("/checkout")}
-              className="bg-black text-white px-6 py-2 rounded-md hover:bg-black cursor-pointer"
-            >
-              Proceed to Checkout
-            </Button>
-          </div>
-        </div>
-      )}
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full pt-4 border-t mt-4 gap-4">
+        <p className="text-base sm:text-lg font-semibold">
+          Total: ₹{totalPrice}
+        </p>
+        <Button
+          onClick={() => navigate("/checkout")}
+          className="bg-black text-white px-6 py-2 rounded-md hover:bg-black w-full sm:w-auto"
+        >
+          Proceed to Checkout
+        </Button>
+      </div>
     </div>
+  )}
+</div>
   );
 }
