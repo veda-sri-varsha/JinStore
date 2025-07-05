@@ -8,10 +8,10 @@ import {
   FaChevronDown,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { HiX as X, HiMenu as Menu } from "react-icons/hi";
+// import { HiX as X, HiMenu as Menu } from "react-icons/hi";
 import Logo from "../../assets/logo.png";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
 import { useCart } from "../../context/CartContext";
 import { auth } from "../../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -26,7 +26,7 @@ export const TopBar = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("User");
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+  // const [showMenu, setShowMenu] = useState<boolean>(false);
   const { getTotalQuantity } = useCart();
   const total = getTotalQuantity();
   const [wishlistCount, setWishlistCount] = useState(0);
@@ -97,26 +97,35 @@ export const TopBar = () => {
         <div className="max-w-7xl mx-auto px-4 py-2 flex flex-row flex-wrap justify-between items-center gap-4">
           <div className="sm:flex flex-row flex-wrap items-center w-full text-xs">
             <div className="flex items-center gap-4 flex-wrap">
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="icon"
                 className="md:hidden"
                 onClick={() => setShowMenu(!showMenu)}
               >
                 {showMenu ? <X size={24} /> : <Menu size={24} />}
-              </Button>
+              </Button> */}
 
-               <div className="md:flex items-center gap-4">
-              <Link to="/about" className="hover:text-primary transition-colors">
-                About Us
-              </Link>
-              <Link to="/login" className="hover:text-primary transition-colors">
-                My Account
-              </Link>
-              <Link to="/wishlist" className="hover:text-primary transition-colors">
-                Wishlist
-              </Link>
-            </div>
+              <div className="hidden md:flex justify-between md:justify-start items-center gap-4 w-full md:w-auto text-sm">
+                <Link
+                  to="/about"
+                  className="hover:text-primary transition-colors"
+                >
+                  About Us
+                </Link>
+                <Link
+                  to="/login"
+                  className="hover:text-primary transition-colors"
+                >
+                  My Account
+                </Link>
+                <Link
+                  to="/wishlist"
+                  className="hover:text-primary transition-colors"
+                >
+                  Wishlist
+                </Link>
+              </div>
 
               <span className="text-sm whitespace-nowrap ml-4">
                 We deliver every day from{" "}
@@ -124,12 +133,12 @@ export const TopBar = () => {
               </span>
             </div>
 
-            <div className="flex items-center gap-4 ml-auto mt-2 sm:mt-0">
-              <div className="flex items-center gap-1 whitespace-nowrap">
+            <div className="flex items-center gap-4 ml-auto mt-2 sm:mt-0 ">
+              <div className="hidden sm:flex items-center gap-1 whitespace-nowrap ">
                 <span>English</span>
                 <FaChevronDown size={14} className="mt-[1px]" />
               </div>
-              <div className="relative flex items-center gap-1 whitespace-nowrap group">
+              <div className="relative hidden sm:flex items-center gap-1 whitespace-nowrap group">
                 <span>IND</span>
                 <FaChevronDown size={14} className="mt-[1px]" />
                 <div className="absolute top-full right-0 hidden group-hover:block bg-white border border-gray-200 rounded shadow-lg mt-1">

@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router";
 import { TopBar } from "./TopBar";
-// import { FaChevronDown } from "react-icons/fa";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -36,11 +35,14 @@ export default function Header() {
     } else {
       navigate(path);
     }
+
+    setMenuOpen(false);
   };
 
   return (
     <>
       <TopBar />
+
       <div className="px-4 sm:px-8 py-2 border-b border-blue-100 font-sans">
         <div className="flex items-center justify-between md:justify-between">
           <div className="flex items-center gap-4">
@@ -56,27 +58,47 @@ export default function Header() {
                 <div
                   key={label}
                   onClick={() => handleMenuClick(label, path)}
-                  className="flex items-center gap-1 cursor-pointer hover:text-[var(--color-primary)]"
+                  className="cursor-pointer hover:text-[var(--color-primary)]"
                 >
-                  <span>{label}</span>
-                  {/* {(label === "Home" || label === "Shop") && (
-                    <FaChevronDown size={14} className="mt-[1px]" />
-                  )} */}
+                  {label}
                 </div>
               ))}
             </div>
           </div>
 
-            <div className="hidden md:flex items-center space-x-4 text-sm font-medium text-gray-800">
+          <div className="hidden md:flex items-center space-x-4 text-sm font-medium text-gray-800">
             <div
-              className="flex items-center gap-1 cursor-pointer hover:text-[var(--color-primary)]"
+              className="cursor-pointer hover:text-[var(--color-primary)]"
               onClick={() => navigate("/orders")}
             >
-              <span>Order Tracking</span>
-              {/* <FaChevronDown size={14} className="mt-[1px]" /> */}
+              Order Tracking
             </div>
-            </div>
+          </div>
         </div>
+
+        {menuOpen && (
+          <div className="md:hidden mt-4 space-y-2">
+            {menuItems.map(({ label, path }) => (
+              <div
+                key={label}
+                onClick={() => handleMenuClick(label, path)}
+                className="block text-sm font-medium text-gray-800 px-2 py-2 rounded hover:bg-gray-100 cursor-pointer"
+              >
+                {label}
+              </div>
+            ))}
+
+            <div
+              onClick={() => {
+                navigate("/orders");
+                setMenuOpen(false);
+              }}
+              className="block text-sm font-medium text-gray-800 px-2 py-2 rounded hover:bg-gray-100 cursor-pointer"
+            >
+              Order Tracking
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

@@ -21,67 +21,42 @@ export function Wishlist() {
   const [products, setProducts] = useState<FirebaseProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  const stored = JSON.parse(localStorage.getItem("wishlist") || "[]") as string[];
-  console.log("Stored Wishlist IDs:", stored);
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("wishlist") || "[]") as string[];
+    setWishlist(stored);
 
-  setWishlist(stored);
-
-  if (stored.length === 0) {
-    setProducts([]);
-    setLoading(false);
-    return;
-  }
-
-  const productsRef = ref(rtdb, "products/fruits");
-
-  const unsubscribe = onValue(productsRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log("Fetched Firebase Data:", data);
-
-    if (!data) {
-      console.log("No data found under 'products/fruits'");
+    if (stored.length === 0) {
       setProducts([]);
       setLoading(false);
       return;
     }
 
     const loaded: FirebaseProduct[] = [];
+    let processed = 0;
 
-    for (const groupKey in data) {
-      const productArray = data[groupKey];
-
-      if (Array.isArray(productArray)) {
-        for (const item of productArray) {
-          const itemId = item.id?.toString() || `${groupKey}_${item.name}`;
-          console.log("Checking item:", itemId);
-
-          if (stored.includes(itemId)) {
-            loaded.push({
-              id: itemId,
-              name: item.name,
-              description: item.description || "",
-              price: Number(item.price) || 0,
-              imageUrl: item.imageUrl || "/placeholder-image.jpg",
-              category: item.category || "",
-              rating: item.rating || 0,
-              stock: item.stock || 0,
-              tags: item.tags || [],
-            });
+    stored.forEach((id) => {
+      const productRef = ref(rtdb, `products/${id}`);
+      onValue(
+        productRef,
+        (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            loaded.push(data);
+          } else {
+            const updated = stored.filter((item) => item !== id);
+            localStorage.setItem("wishlist", JSON.stringify(updated));
+            setWishlist(updated);
           }
-        }
-      }
-    }
-
-    console.log("Matched Wishlist Products:", loaded);
-
-    setProducts(loaded);
-    setLoading(false);
-  });
-
-  return () => unsubscribe();
-}, []);
-
+          processed++;
+          if (processed === stored.length) {
+            setProducts([...loaded]);
+            setLoading(false);
+          }
+        },
+        { onlyOnce: true }
+      );
+    });
+  }, []);
 
   const removeFromWishlist = (productId: string) => {
     const updated = wishlist.filter((id) => id !== productId);
@@ -90,18 +65,14 @@ export function Wishlist() {
     setProducts((prev) => prev.filter((p) => p.id !== productId));
   };
 
-  if (loading) {
-    return <div className="text-center py-10">Loading wishlist...</div>;
-  }
+  if (loading) return <div className="text-center py-10">Loading wishlist...</div>;
 
-  if (products.length === 0) {
+  if (products.length === 0)
     return <div className="text-center py-10 text-gray-600">No items in wishlist.</div>;
-  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold mb-6 text-center">Your Wishlist ❤️</h1>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product.id} className="border rounded-lg p-4 shadow-sm flex flex-col items-center">
