@@ -109,7 +109,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="flex justify-start gap-4  flex-wrap">
+          <div className="hidden sm:flex justify-start gap-4  flex-wrap">
             {[visa, paypal, mastercard, skrill, klarna].map((imgSrc, index) => (
               <img
                 key={index}

@@ -143,11 +143,10 @@ export default function ProductDetails() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-       <nav className="text-sm text-gray-500 mb-4">
-          <span>Home</span> / <span>Shop</span> /{" "}
-          <span>Fruits & Vegetables</span> /
-          <span className="text-gray-900 font-medium"> {product.name}</span>
-        </nav>
+      <nav className="text-xs text-gray-500 mb-3">
+        Home / Shop / Fruits & Vegetables /
+        <span className="text-gray-900 font-semibold"> {product.name}</span>
+      </nav>
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-sm p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -211,16 +210,18 @@ export default function ProductDetails() {
               </Button>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
               <Button
                 onClick={handleAddToCart}
-                className="flex-1 bg-primary text-white py-3 rounded-lg"
+                className="flex items-center justify-center gap-2 w-full sm:flex-1 bg-primary text-white py-3 text-sm sm:text-base rounded-lg"
               >
-                <FaShoppingCart className="mr-2" /> Add to Cart
+                <FaShoppingCart className="text-base" />
+                Add to Cart
               </Button>
+
               <Button
                 onClick={() => (window.location.href = "/checkout")}
-                className="flex-1 bg-black text-white py-3 rounded-lg"
+                className="flex items-center justify-center gap-2 w-full sm:flex-1 bg-black text-white py-3 text-sm sm:text-base rounded-lg"
               >
                 Buy Now
               </Button>
@@ -244,21 +245,21 @@ export default function ProductDetails() {
               {isInWishlist ? <FaHeart /> : <FaRegHeart />} Add to Wishlist
             </Button>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t">
+            <div className="hidden sm:grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t">
               <div className="flex flex-col items-center text-center gap-2">
-                     <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      d="M20.5182 0.23403H3.20216C2.66482 0.23403 2.16216 0.364031 1.69416 0.624031C1.22616 0.884029 0.85349 1.23936 0.576156 1.69003C0.298823 2.1407 0.160156 2.6347 0.160156 3.17203V13.988C0.160156 14.5254 0.29449 15.028 0.563156 15.496C0.831823 15.964 1.19582 16.3367 1.65516 16.614C2.11449 16.8914 2.63016 17.03 3.20216 17.03H20.5182C21.0555 17.03 21.5582 16.8957 22.0262 16.627C22.4942 16.3584 22.8668 15.9944 23.1442 15.535C23.4215 15.0757 23.5602 14.56 23.5602 13.988V3.17203C23.5602 2.6347 23.4215 2.1407 23.1442 1.69003C22.8668 1.23936 22.4942 0.884029 22.0262 0.624031C21.5582 0.364031 21.0555 0.23403 20.5182 0.23403ZM3.20216 1.87203H20.5182C20.8995 1.87203 21.2115 2.00203 21.4542 2.26203C21.6968 2.52203 21.8182 2.82536 21.8182 3.17203V5.53803H1.90216V3.17203C1.90216 2.7907 2.02349 2.4787 2.26616 2.23603C2.50882 1.99336 2.82082 1.87203 3.20216 1.87203ZM20.5182 15.392H3.20216C2.83816 15.392 2.53049 15.2577 2.27916 14.989C2.02782 14.7204 1.90216 14.4214 1.90216 14.092V7.38403H21.9482V13.988C21.8788 14.3867 21.7185 14.7204 21.4672 14.989C21.2158 15.2577 20.8995 15.392 20.5182 15.392Z"
-                      fill="green"
-                    />
-                  </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                >
+                  <path
+                    d="M20.5182 0.23403H3.20216C2.66482 0.23403 2.16216 0.364031 1.69416 0.624031C1.22616 0.884029 0.85349 1.23936 0.576156 1.69003C0.298823 2.1407 0.160156 2.6347 0.160156 3.17203V13.988C0.160156 14.5254 0.29449 15.028 0.563156 15.496C0.831823 15.964 1.19582 16.3367 1.65516 16.614C2.11449 16.8914 2.63016 17.03 3.20216 17.03H20.5182C21.0555 17.03 21.5582 16.8957 22.0262 16.627C22.4942 16.3584 22.8668 15.9944 23.1442 15.535C23.4215 15.0757 23.5602 14.56 23.5602 13.988V3.17203C23.5602 2.6347 23.4215 2.1407 23.1442 1.69003C22.8668 1.23936 22.4942 0.884029 22.0262 0.624031C21.5582 0.364031 21.0555 0.23403 20.5182 0.23403ZM3.20216 1.87203H20.5182C20.8995 1.87203 21.2115 2.00203 21.4542 2.26203C21.6968 2.52203 21.8182 2.82536 21.8182 3.17203V5.53803H1.90216V3.17203C1.90216 2.7907 2.02349 2.4787 2.26616 2.23603C2.50882 1.99336 2.82082 1.87203 3.20216 1.87203ZM20.5182 15.392H3.20216C2.83816 15.392 2.53049 15.2577 2.27916 14.989C2.02782 14.7204 1.90216 14.4214 1.90216 14.092V7.38403H21.9482V13.988C21.8788 14.3867 21.7185 14.7204 21.4672 14.989C21.2158 15.2577 20.8995 15.392 20.5182 15.392Z"
+                    fill="green"
+                  />
+                </svg>
                 <p className="text-xs text-gray-600">Secure Payment</p>
               </div>
               <div className="flex flex-col items-center text-center gap-2">
@@ -327,7 +328,8 @@ export default function ProductDetails() {
                       <span className="text-xs text-gray-500">2 days ago</span>
                     </div>
                     <p className="text-sm text-gray-600">
-                      Excellent quality! Fresh and delivered on time. Highly recommended.
+                      Excellent quality! Fresh and delivered on time. Highly
+                      recommended.
                     </p>
                   </div>
 
@@ -338,7 +340,8 @@ export default function ProductDetails() {
                       <span className="text-xs text-gray-500">1 week ago</span>
                     </div>
                     <p className="text-sm text-gray-600">
-                      Good product, but packaging could be improved. Overall satisfied.
+                      Good product, but packaging could be improved. Overall
+                      satisfied.
                     </p>
                   </div>
                 </div>
