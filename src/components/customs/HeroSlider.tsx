@@ -120,7 +120,7 @@ export default function HeroSlider() {
 
   return (
     <>
-     <div className="relative w-full h-[500px] overflow-hidden">
+      <div className="relative w-full h-[500px] overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -131,18 +131,18 @@ export default function HeroSlider() {
             <img
               src={slide.image}
               alt={`Slide ${index}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover "
             />
             <div className="absolute top-1/4 left-8 max-w-md text-black p-6">
               <div className="inline-block mb-2 px-3 py-1  text-sm font-bold text-green-800 bg-gradient-to-r from-green-400/50 via-green-200/10 to-white">
                 {slide.label}
               </div>
 
-              <h2 className="text-3xl font-extrabold leading-snug text-purple-900 whitespace-pre-line">
+              <h2 className="text-xl sm:text-3xl font-extrabold leading-snug text-purple-900 whitespace-pre-line">
                 {slide.heading}
               </h2>
 
-              <p className="text-sm text-gray-700 mt-2 whitespace-pre-line">
+              <p className="hidden sm:block text-sm text-gray-700 mt-2 whitespace-pre-line">
                 {slide.description}
               </p>
 
@@ -178,13 +178,15 @@ export default function HeroSlider() {
         ))}
       </div>
 
-      <div className="w-full bg-white py-6 px-4">
+      <div className="w-full bg-white py-6 px-4 hidden sm:block">
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-6 sm:gap-4">
           {categories.map((category) => (
             <div
               key={category.name}
               className={`flex flex-col items-center space-y-2 text-center min-w-[80px] transition-all duration-300 hover:scale-105 hover:bg-gray-50 rounded-xl cursor-pointer ${
-                selectedCategory === category.backend ? "ring-2 ring-purple-100" : ""
+                selectedCategory === category.backend
+                  ? "ring-2 ring-purple-100"
+                  : ""
               }`}
               onClick={() => handleCategoryClick(category.backend)}
             >
