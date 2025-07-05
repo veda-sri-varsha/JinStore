@@ -32,8 +32,18 @@ export const TopBar = () => {
   const [wishlistCount, setWishlistCount] = useState(0);
 
   useEffect(() => {
-    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
-    setWishlistCount(wishlist.length);
+    const updateWishlistCount = () => {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+      setWishlistCount(wishlist.length);
+    };
+
+    updateWishlistCount();
+
+    window.addEventListener("wishlistUpdated", updateWishlistCount);
+
+    return () => {
+      window.removeEventListener("wishlistUpdated", updateWishlistCount);
+    };
   }, []);
 
   useEffect(() => {
