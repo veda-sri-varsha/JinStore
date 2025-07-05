@@ -131,7 +131,7 @@ export default function HeroSlider() {
             <img
               src={slide.image}
               alt={`Slide ${index}`}
-              className="w-full h-full object-cover "
+              className="w-full h-full object-cover"
             />
             <div className="absolute top-1/4 left-8 max-w-md text-black p-6">
               <div className="inline-block mb-2 px-3 py-1  text-sm font-bold text-green-800 bg-gradient-to-r from-green-400/50 via-green-200/10 to-white">
