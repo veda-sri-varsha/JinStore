@@ -4,6 +4,6 @@ import { ProductList } from "../components/customs/ProductsList";
 export default function HomePage() {
   return <>
   <HeroSlider/>
-  <ProductList/>
+  <ProductList selectedCategory={null}/>
   </>;
 }

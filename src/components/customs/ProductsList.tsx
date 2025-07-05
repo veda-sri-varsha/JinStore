@@ -7,7 +7,6 @@ import { Link } from "react-router";
 import { ref, onValue, off } from "firebase/database";
 import { rtdb, auth } from "../../config/firebase";
 import { onAuthStateChanged, type User } from "firebase/auth";
-// import BestSellers from "../customs/BestSellers";
 
 interface Product {
   id: string;
@@ -148,8 +147,6 @@ export function ProductList({ selectedCategory }: ProductListProps) {
 
   return (
     <>
-    {/* <BestSellers/>
-    <br/> */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {visibleProducts.map((product) => (
           <Card key={product.id} className="p-4 shadow relative">
