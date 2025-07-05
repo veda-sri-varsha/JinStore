@@ -10,6 +10,7 @@ import ProductDetails from "../components/customs/ProductDetails";
 import  {Wishlist} from "../components/customs/Wishlist";
 import FilterProductPage from "../pages/FilterProductPage";
 import {AboutUs} from "../components/customs/AboutUs";
+import { OrderTracking } from "../components/customs/OrderTracking";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
       { path: "checkout", element: <CheckoutPage /> },
       { path: "wishlist", element: <Wishlist /> },
       {path:"filters",element:<FilterProductPage />},
+      {path:"orders",element:<OrderTracking/>},
       { path: "/product/:id", element: <ProductDetails /> },
       
     ],

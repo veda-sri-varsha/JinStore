@@ -15,7 +15,6 @@ import { Button } from "../ui/button";
 import { useCart } from "../../context/CartContext";
 import { auth } from "../../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { useSearch } from "../../context/SearchContext";
 
 export const TopBar = () => {
   const [timeLeft] = useState({
@@ -30,17 +29,12 @@ export const TopBar = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const { getTotalQuantity } = useCart();
   const total = getTotalQuantity();
-  const { searchTerm, setSearchTerm } = useSearch();
   const [wishlistCount, setWishlistCount] = useState(0);
 
   useEffect(() => {
     const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
     setWishlistCount(wishlist.length);
   }, []);
-
-  const handleSearch = () => {
-    console.log("Search triggered:", searchTerm);
-  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -112,24 +106,20 @@ export const TopBar = () => {
                 {showMenu ? <X size={24} /> : <Menu size={24} />}
               </Button>
 
-              <div
-                className={`$ {
-                  showMenu ? "flex" : "hidden"
-                } flex-col sm:flex sm:flex-row sm:items-center gap-4`}
-              >
-                <Link to="/about" className="hover:text-primary">
-                  About Us
-                </Link>
-                <Link to="/login" className="hover:text-primary">
-                  My Account
-                </Link>
-                <Link to="/wishlist" className="hover:text-primary">
-                  Wishlist
-                </Link>
-              </div>
+               <div className="md:flex items-center gap-4">
+              <Link to="/about" className="hover:text-primary transition-colors">
+                About Us
+              </Link>
+              <Link to="/login" className="hover:text-primary transition-colors">
+                My Account
+              </Link>
+              <Link to="/wishlist" className="hover:text-primary transition-colors">
+                Wishlist
+              </Link>
+            </div>
 
               <span className="text-sm whitespace-nowrap ml-4">
-                We deliver every day from {" "}
+                We deliver every day from{" "}
                 <span className="text-orange-500 font-bold">7:00 to 23:00</span>
               </span>
             </div>
@@ -188,16 +178,12 @@ export const TopBar = () => {
               <div className="relative">
                 <Input
                   type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   placeholder="Search for products, categories or brands..."
                   className="w-full px-4 py-2 pr-12 rounded-md bg-gray-100 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all"
                 />
                 <button
                   type="button"
                   aria-label="Search"
-                  onClick={handleSearch}
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-purple-600"
                 >
                   <FaSearch size={20} />
@@ -209,9 +195,17 @@ export const TopBar = () => {
               {isLoggedIn ? (
                 <div className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 text-sm">
                   <FaUser size={20} />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col overflow-hidden max-w-[120px]">
                     <span className="text-sm">Hello,</span>
-                    <span className="text-xs font-semibold">{username}</span>
+                    <span className="text-xs font-semibold truncate block sm:hidden">
+                      {username.length > 12
+                        ? `${username.slice(0, 6)}…`
+                        : username}
+                    </span>
+
+                    <span className="text-xs font-semibold hidden sm:block">
+                      {username}
+                    </span>
                   </div>
                 </div>
               ) : (
@@ -253,16 +247,12 @@ export const TopBar = () => {
             <div className="relative">
               <Input
                 type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 placeholder="Search products..."
                 className="w-full px-4 py-2 pr-12 rounded-lg bg-gray-100"
               />
               <button
                 type="button"
                 aria-label="Search"
-                onClick={handleSearch}
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-purple-600"
               >
                 <FaSearch size={20} />
