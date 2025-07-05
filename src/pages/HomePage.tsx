@@ -1,9 +1,14 @@
+import { useState } from "react";
 import HeroSlider from "../components/customs/HeroSlider";
 import { ProductList } from "../components/customs/ProductsList";
 
 export default function HomePage() {
-  return <>
-  <HeroSlider/>
-  <ProductList selectedCategory={null}/>
-  </>;
+  const [selectedCategory] = useState<string | null>(null);
+
+  return (
+    <>
+      <HeroSlider />
+      <ProductList selectedCategory={selectedCategory} />
+    </>
+  );
 }
