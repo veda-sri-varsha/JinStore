@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../../context/CartContext";
 import { ref, onValue } from "firebase/database";
 import { rtdb } from "../../config/firebase";
 
@@ -53,15 +53,18 @@ export default function ProductDetails() {
         const productArray = data[groupKey];
         if (Array.isArray(productArray)) {
           for (const item of productArray) {
-            const itemId = item.id?.toString() || `${groupKey}_${item.name}`;
+            const itemId =
+              item.id?.toString().trim() ||
+              `${groupKey}_${item.name?.toString().trim()}`;
+
             if (itemId === id) {
               setProduct({
                 id: itemId,
-                name: item.name,
-                description: item.description || "",
-                price: parseFloat(item.price),
+                name: item.name || "Unknown Product",
+                description: item.description || "No description available.",
+                price: parseFloat(item.price || "0"),
                 imageUrl: item.imageUrl || "/placeholder-image.jpg",
-                category: item.category || "",
+                category: item.category || "Uncategorized",
                 rating: item.rating || 0,
                 stock: item.stock || 0,
                 tags: item.tags || [],
@@ -80,7 +83,6 @@ export default function ProductDetails() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-        {/* Image Section */}
         <div>
           <img
             src={product.imageUrl}
