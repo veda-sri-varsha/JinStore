@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { useCart } from "../hooks/useCart";
 import { useSearch } from "../../context/SearchContext";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ref, onValue, off } from "firebase/database";
 import { rtdb, auth } from "../../config/firebase";
 import { onAuthStateChanged, type User } from "firebase/auth";
@@ -32,6 +32,7 @@ export function ProductList({ selectedCategory }: ProductListProps) {
   const [visibleCount, setVisibleCount] = useState(10);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showLoginMessage, setShowLoginMessage] = useState(false);
+  const navigate = useNavigate();
 
   const { addToCart } = useCart();
   const { searchTerm } = useSearch();
@@ -46,11 +47,11 @@ export function ProductList({ selectedCategory }: ProductListProps) {
     if (product.rating >= 4.5 || product.price > 100 || index % 7 === 0) {
       badges.isBestSelling = true;
     }
-    
-    if (index % 11 === 0 || product.title.toLowerCase().includes('fresh')) {
+
+    if (index % 11 === 0 || product.title.toLowerCase().includes("fresh")) {
       badges.isNewArrival = true;
     }
-    
+
     if (product.rating >= 4.8 || index % 13 === 0) {
       badges.isFeatured = true;
     }
@@ -88,7 +89,7 @@ export function ProductList({ selectedCategory }: ProductListProps) {
         }
       }
 
-      const productsWithBadges = allProducts.map((product, index) => 
+      const productsWithBadges = allProducts.map((product, index) =>
         addProductBadges(product, index)
       );
 
@@ -120,7 +121,8 @@ export function ProductList({ selectedCategory }: ProductListProps) {
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 300 &&
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 300 &&
         visibleCount < filteredProducts.length
       ) {
         setVisibleCount((prev) => prev + 10);
@@ -131,14 +133,15 @@ export function ProductList({ selectedCategory }: ProductListProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [visibleCount, filteredProducts.length]);
 
-  const getBadgeStyle = (type: 'bestSelling' | 'newArrival' | 'featured') => {
-    const baseClasses = "absolute top-2 left-2 px-2 py-1 text-xs font-bold rounded-full z-10";
+  const getBadgeStyle = (type: "bestSelling" | "newArrival" | "featured") => {
+    const baseClasses =
+      "absolute top-2 left-2 px-2 py-1 text-xs font-bold rounded-full z-10";
     switch (type) {
-      case 'bestSelling':
+      case "bestSelling":
         return `${baseClasses} bg-green-700 text-white`;
-      case 'newArrival':
+      case "newArrival":
         return `${baseClasses} bg-blue-500 text-white`;
-      case 'featured':
+      case "featured":
         return `${baseClasses} bg-purple-500 text-white`;
       default:
         return baseClasses;
@@ -151,28 +154,27 @@ export function ProductList({ selectedCategory }: ProductListProps) {
         {visibleProducts.map((product) => (
           <Card key={product.id} className="p-4 shadow relative">
             {product.isBestSelling && (
-              <div className={getBadgeStyle('bestSelling')}>
+              <div className={getBadgeStyle("bestSelling")}>
                 🔥 Best Selling
               </div>
             )}
             {product.isNewArrival && !product.isBestSelling && (
-              <div className={getBadgeStyle('newArrival')}>
-                ✨ New
-              </div>
+              <div className={getBadgeStyle("newArrival")}>✨ New</div>
             )}
-            {product.isFeatured && !product.isBestSelling && !product.isNewArrival && (
-              <div className={getBadgeStyle('featured')}>
-                ⭐ Featured
-              </div>
-            )}
-            
+            {product.isFeatured &&
+              !product.isBestSelling &&
+              !product.isNewArrival && (
+                <div className={getBadgeStyle("featured")}>⭐ Featured</div>
+              )}
+
             <Link to={`/product/${product.id}`}>
               <img
                 src={product.image}
                 alt={product.title}
                 className="w-full h-40 object-cover rounded"
                 onError={(e) =>
-                  ((e.target as HTMLImageElement).src = "/placeholder-image.jpg")
+                  ((e.target as HTMLImageElement).src =
+                    "/placeholder-image.jpg")
                 }
               />
             </Link>
@@ -184,26 +186,29 @@ export function ProductList({ selectedCategory }: ProductListProps) {
               </span>
               <span className="text-xs text-gray-400">{product.brand}</span>
             </div>
-            
+
             {product.rating > 0 && (
               <div className="mt-1 flex items-center">
                 <span className="text-yellow-400 text-sm">
-                  {'★'.repeat(Math.floor(product.rating))}
-                  {'☆'.repeat(5 - Math.floor(product.rating))}
+                  {"★".repeat(Math.floor(product.rating))}
+                  {"☆".repeat(5 - Math.floor(product.rating))}
                 </span>
                 <span className="ml-1 text-xs text-gray-500">
                   ({product.rating.toFixed(1)})
                 </span>
               </div>
             )}
-            
+
             <Button
               className="mt-3 w-full cursor-pointer"
               disabled={product.stock <= 0}
               onClick={() => {
                 if (!currentUser) {
                   setShowLoginMessage(true);
-                  setTimeout(() => setShowLoginMessage(false), 2500);
+                  setTimeout(() => {
+                    setShowLoginMessage(false);
+                    navigate("/login");
+                  }, 1000);
                   return;
                 }
                 addToCart({ ...product, quantity: 1 });
